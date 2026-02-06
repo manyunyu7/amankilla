@@ -304,9 +304,9 @@ Import is considered COMPLETE when ALL of these are true:
 **Universe Created**: "INFJ × INFP Journey" (ID: 2)
 
 **Statistics**:
-- **Total Scenes**: 298 imported (30 skipped as too short)
+- **Total Scenes**: 299 imported (30 skipped as too short, +1 prologue added)
 - **Timelines**: 5
-  - Primary Story: 286 scenes
+  - Primary Story: 287 scenes (includes prologue at order 0)
   - MBTI Perspectives: 3 scenes
   - Rania & Papa: 3 scenes
   - Rania & Mama - Original: 5 scenes
@@ -341,7 +341,12 @@ Import is considered COMPLETE when ALL of these are true:
 2. Convert plain text to TipTap JSON format (optional enhancement)
 3. Set up explicit branch links (optional enhancement)
 
-**Last Updated**: 2026-02-06 (Iteration 1 - Import Complete + Branching Fixed)
+**Last Updated**: 2026-02-06 (Iteration 1 - Import Complete + Branching Fixed + Prologue Added)
+
+### Post-Import Fix: Prologue Added
+After comprehensive review, discovered that lines 2-5 of raw.md (the opening question) were not captured by the scene detector because they preceded the first date marker. Created ImportPrologue command to add this content as Scene 0.
+
+**Result**: 299 total scenes (was 298, +1 prologue)
 
 ---
 

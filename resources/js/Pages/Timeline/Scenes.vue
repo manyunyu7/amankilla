@@ -1,8 +1,8 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { DButton, DCard, DBadge, DInput, DModal } from '@/Components/ui';
+import { DButton, DCard, DBadge, DInput, DModal, DTagChip } from '@/Components/ui';
 
 const props = defineProps({
     timeline: {
@@ -13,7 +13,37 @@ const props = defineProps({
         type: Array,
         default: () => [],
     },
+    allTags: {
+        type: Array,
+        default: () => [],
+    },
 });
+
+// Tag filtering
+const selectedTagIds = ref([]);
+const showFilters = ref(false);
+
+const filteredScenes = computed(() => {
+    if (selectedTagIds.value.length === 0) {
+        return props.scenes;
+    }
+    return props.scenes.filter(scene =>
+        scene.tags?.some(tag => selectedTagIds.value.includes(tag.id))
+    );
+});
+
+const toggleTagFilter = (tagId) => {
+    const index = selectedTagIds.value.indexOf(tagId);
+    if (index === -1) {
+        selectedTagIds.value.push(tagId);
+    } else {
+        selectedTagIds.value.splice(index, 1);
+    }
+};
+
+const clearFilters = () => {
+    selectedTagIds.value = [];
+};
 
 const showSceneModal = ref(false);
 
@@ -76,17 +106,69 @@ const moodColors = {
                         </div>
                     </div>
                 </div>
-                <DButton @click="showSceneModal = true">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                    </svg>
-                    Add Scene
-                </DButton>
+                <div class="flex items-center gap-2">
+                    <DButton
+                        v-if="allTags.length > 0"
+                        variant="ghost"
+                        @click="showFilters = !showFilters"
+                        :class="selectedTagIds.length > 0 ? 'text-primary' : ''"
+                    >
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                        </svg>
+                        <span v-if="selectedTagIds.length > 0">({{ selectedTagIds.length }})</span>
+                    </DButton>
+                    <DButton @click="showSceneModal = true">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        </svg>
+                        Add Scene
+                    </DButton>
+                </div>
             </div>
         </template>
 
         <div class="py-6">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Tag Filter Panel -->
+                <div v-if="showFilters && allTags.length > 0" class="mb-6">
+                    <DCard padding="md">
+                        <div class="flex items-center justify-between mb-3">
+                            <h4 class="font-nunito font-bold text-text-primary">Filter by Tags</h4>
+                            <button
+                                v-if="selectedTagIds.length > 0"
+                                class="text-sm text-primary hover:underline"
+                                @click="clearFilters"
+                            >
+                                Clear all
+                            </button>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <button
+                                v-for="tag in allTags"
+                                :key="tag.id"
+                                type="button"
+                                :class="[
+                                    'inline-flex items-center gap-1.5 px-3 py-1 rounded-full font-nunito font-semibold text-sm transition-all border-2',
+                                    selectedTagIds.includes(tag.id)
+                                        ? 'border-primary bg-primary-light text-primary'
+                                        : 'border-border-light bg-white text-text-secondary hover:border-primary',
+                                ]"
+                                @click="toggleTagFilter(tag.id)"
+                            >
+                                <span
+                                    class="w-2.5 h-2.5 rounded-full"
+                                    :style="{ backgroundColor: tag.color || '#6B7280' }"
+                                ></span>
+                                {{ tag.name }}
+                            </button>
+                        </div>
+                        <p v-if="selectedTagIds.length > 0" class="mt-3 text-sm text-text-hint">
+                            Showing {{ filteredScenes.length }} of {{ scenes.length }} scenes
+                        </p>
+                    </DCard>
+                </div>
+
                 <div v-if="scenes.length === 0" class="text-center py-12">
                     <DCard padding="lg">
                         <div class="w-20 h-20 mx-auto rounded-full bg-primary-light flex items-center justify-center mb-4">
@@ -106,9 +188,28 @@ const moodColors = {
                     </DCard>
                 </div>
 
+                <div v-else-if="filteredScenes.length === 0" class="text-center py-12">
+                    <DCard padding="lg">
+                        <div class="w-20 h-20 mx-auto rounded-full bg-primary-light flex items-center justify-center mb-4">
+                            <svg class="w-10 h-10 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-nunito font-bold text-text-primary mb-2">
+                            No Matching Scenes
+                        </h3>
+                        <p class="text-text-secondary mb-4">
+                            No scenes match the selected tag filters
+                        </p>
+                        <DButton variant="secondary" @click="clearFilters">
+                            Clear Filters
+                        </DButton>
+                    </DCard>
+                </div>
+
                 <div v-else class="space-y-4">
                     <DCard
-                        v-for="(scene, index) in scenes"
+                        v-for="(scene, index) in filteredScenes"
                         :key="scene.id"
                         padding="md"
                         class="hover:shadow-lg transition-shadow"
@@ -150,6 +251,21 @@ const moodColors = {
                                     </DBadge>
                                     <span v-if="scene.word_count" class="text-xs text-text-hint">
                                         {{ scene.word_count.toLocaleString() }} words
+                                    </span>
+                                </div>
+
+                                <!-- Scene Tags -->
+                                <div v-if="scene.tags?.length" class="flex flex-wrap gap-1 mt-2">
+                                    <DTagChip
+                                        v-for="tag in scene.tags.slice(0, 4)"
+                                        :key="tag.id"
+                                        :tag="tag"
+                                        size="sm"
+                                        clickable
+                                        @click="toggleTagFilter(tag.id)"
+                                    />
+                                    <span v-if="scene.tags.length > 4" class="text-xs text-text-hint self-center ml-1">
+                                        +{{ scene.tags.length - 4 }} more
                                     </span>
                                 </div>
                             </div>

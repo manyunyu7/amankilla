@@ -26,9 +26,16 @@ class SceneController extends Controller
             ->orderBy('order')
             ->get();
 
+        // Get all tags for the universe (for filtering)
+        $allTags = $timeline->universe->tags()
+            ->orderBy('category')
+            ->orderBy('name')
+            ->get();
+
         return Inertia::render('Timeline/Scenes', [
             'timeline' => $timeline->load('universe'),
             'scenes' => $scenes,
+            'allTags' => $allTags,
         ]);
     }
 

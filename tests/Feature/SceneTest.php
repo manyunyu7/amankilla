@@ -247,6 +247,22 @@ class SceneTest extends TestCase
         );
     }
 
+    public function test_scene_index_provides_all_tags_for_filtering(): void
+    {
+        $user = User::factory()->create();
+        $universe = Universe::factory()->create(['user_id' => $user->id]);
+        $timeline = Timeline::factory()->create(['universe_id' => $universe->id]);
+        Tag::factory()->count(3)->create(['universe_id' => $universe->id]);
+
+        $response = $this->actingAs($user)->get(route('timelines.scenes.index', $timeline));
+
+        $response->assertOk();
+        $response->assertInertia(fn ($page) => $page
+            ->component('Timeline/Scenes')
+            ->has('allTags', 3)
+        );
+    }
+
     public function test_word_count_is_updated_on_content_change(): void
     {
         $user = User::factory()->create();

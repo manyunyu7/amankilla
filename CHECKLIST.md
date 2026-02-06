@@ -107,21 +107,21 @@
 ## Phase 5: Scene CRUD
 
 ### Backend
-- [ ] Create Scene model
-- [ ] Create SceneController
-- [ ] Create StoreSceneRequest validation
-- [ ] Implement index (list scenes in timeline)
-- [ ] Implement store (create scene)
-- [ ] Implement show (scene detail)
-- [ ] Implement update (edit scene)
-- [ ] Implement destroy (delete scene)
-- [ ] Implement reorder (change scene order)
+- [x] Create Scene model
+- [x] Create SceneController
+- [x] Create StoreSceneRequest validation
+- [x] Implement index (list scenes in timeline)
+- [x] Implement store (create scene)
+- [x] Implement show (scene detail)
+- [x] Implement update (edit scene)
+- [x] Implement destroy (delete scene)
+- [x] Implement reorder (change scene order)
 
 ### Frontend
 - [ ] Create scene store (Pinia)
-- [ ] Create scene list view
-- [ ] Create scene card component
-- [ ] Create "New Scene" modal
+- [x] Create scene list view
+- [x] Create scene card component
+- [x] Create "New Scene" modal
 - [ ] Implement drag-and-drop reordering
 
 ---
@@ -417,7 +417,7 @@ composer setup
 | 2. Authentication | In Progress | 9/13 |
 | 3. Universe CRUD | Complete | 15/15 |
 | 4. Timeline CRUD | In Progress | 12/14 |
-| 5. Scene CRUD | Not Started | 0/14 |
+| 5. Scene CRUD | In Progress | 12/14 |
 | 6. Rich Text Editor | Not Started | 0/16 |
 | 7. Graph Visualization | Not Started | 0/12 |
 | 8. Branching System | Not Started | 0/11 |
@@ -430,7 +430,7 @@ composer setup
 | 15. Export | Not Started | 0/7 |
 | 16. OAuth | Not Started | 0/5 |
 
-**Total: 60/194 tasks completed**
+**Total: 72/194 tasks completed**
 
 ---
 

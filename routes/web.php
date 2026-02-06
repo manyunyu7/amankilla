@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SceneController;
 use App\Http\Controllers\TimelineController;
 use App\Http\Controllers\UniverseController;
 use Illuminate\Foundation\Application;
@@ -25,6 +26,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Timeline CRUD (nested under universe for store, shallow for others)
     Route::resource('universes.timelines', TimelineController::class)->shallow();
+
+    // Scene CRUD (nested under timeline for store, shallow for others)
+    Route::resource('timelines.scenes', SceneController::class)->shallow();
+    Route::post('/timelines/{timeline}/scenes/reorder', [SceneController::class, 'reorder'])
+        ->name('timelines.scenes.reorder');
 
     // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

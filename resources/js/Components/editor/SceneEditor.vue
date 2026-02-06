@@ -6,6 +6,61 @@ import Placeholder from '@tiptap/extension-placeholder';
 import Underline from '@tiptap/extension-underline';
 import TextAlign from '@tiptap/extension-text-align';
 import Highlight from '@tiptap/extension-highlight';
+import { Mark, mergeAttributes } from '@tiptap/core';
+
+// Custom extension for character dialogue
+const Dialogue = Mark.create({
+    name: 'dialogue',
+    parseHTML() {
+        return [{ tag: 'span[data-dialogue]' }];
+    },
+    renderHTML({ HTMLAttributes }) {
+        return ['span', mergeAttributes(HTMLAttributes, { 'data-dialogue': '', class: 'dialogue' }), 0];
+    },
+    addCommands() {
+        return {
+            toggleDialogue: () => ({ commands }) => {
+                return commands.toggleMark(this.name);
+            },
+        };
+    },
+});
+
+// Custom extension for inner monologue
+const Monologue = Mark.create({
+    name: 'monologue',
+    parseHTML() {
+        return [{ tag: 'span[data-monologue]' }];
+    },
+    renderHTML({ HTMLAttributes }) {
+        return ['span', mergeAttributes(HTMLAttributes, { 'data-monologue': '', class: 'monologue' }), 0];
+    },
+    addCommands() {
+        return {
+            toggleMonologue: () => ({ commands }) => {
+                return commands.toggleMark(this.name);
+            },
+        };
+    },
+});
+
+// Custom extension for timestamp
+const Timestamp = Mark.create({
+    name: 'timestamp',
+    parseHTML() {
+        return [{ tag: 'span[data-timestamp]' }];
+    },
+    renderHTML({ HTMLAttributes }) {
+        return ['span', mergeAttributes(HTMLAttributes, { 'data-timestamp': '', class: 'timestamp' }), 0];
+    },
+    addCommands() {
+        return {
+            toggleTimestamp: () => ({ commands }) => {
+                return commands.toggleMark(this.name);
+            },
+        };
+    },
+});
 
 const props = defineProps({
     modelValue: {
@@ -52,6 +107,9 @@ const editor = useEditor({
         Highlight.configure({
             multicolor: true,
         }),
+        Dialogue,
+        Monologue,
+        Timestamp,
     ],
     onUpdate: ({ editor }) => {
         const html = editor.getHTML();
@@ -263,6 +321,49 @@ defineExpose({
                 </button>
             </div>
 
+            <!-- Story formatting -->
+            <div class="flex items-center gap-1 pr-2 border-r border-border-gray">
+                <button
+                    type="button"
+                    :class="[
+                        'toolbar-btn dialogue-btn',
+                        isActive('dialogue') ? 'is-active' : '',
+                    ]"
+                    title="Dialogue"
+                    @click="editor?.chain().focus().toggleDialogue().run()"
+                >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                    </svg>
+                </button>
+                <button
+                    type="button"
+                    :class="[
+                        'toolbar-btn monologue-btn',
+                        isActive('monologue') ? 'is-active' : '',
+                    ]"
+                    title="Inner Monologue"
+                    @click="editor?.chain().focus().toggleMonologue().run()"
+                >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                    </svg>
+                </button>
+                <button
+                    type="button"
+                    :class="[
+                        'toolbar-btn timestamp-btn',
+                        isActive('timestamp') ? 'is-active' : '',
+                    ]"
+                    title="Timestamp"
+                    @click="editor?.chain().focus().toggleTimestamp().run()"
+                >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </button>
+            </div>
+
             <!-- Undo/Redo -->
             <div class="flex items-center gap-1">
                 <button
@@ -393,5 +494,67 @@ defineExpose({
 
 .editor-content-wrapper :deep(.ProseMirror li) {
     margin-bottom: 0.25rem;
+}
+
+/* Dialogue styling - speech bubbles / quotes */
+.editor-content-wrapper :deep(.dialogue) {
+    color: #1CB0F6;
+    background-color: rgba(28, 176, 246, 0.1);
+    padding: 0.125rem 0.375rem;
+    border-radius: 0.25rem;
+    font-style: normal;
+}
+
+.editor-content-wrapper :deep(.dialogue)::before {
+    content: '"';
+}
+
+.editor-content-wrapper :deep(.dialogue)::after {
+    content: '"';
+}
+
+/* Inner monologue styling - italic and subtle background */
+.editor-content-wrapper :deep(.monologue) {
+    color: #8B5CF6;
+    background-color: rgba(139, 92, 246, 0.1);
+    font-style: italic;
+    padding: 0.125rem 0.375rem;
+    border-radius: 0.25rem;
+}
+
+/* Timestamp styling - distinct look */
+.editor-content-wrapper :deep(.timestamp) {
+    color: #6B7280;
+    background-color: #F3F4F6;
+    font-family: monospace;
+    font-size: 0.875em;
+    padding: 0.125rem 0.5rem;
+    border-radius: 0.375rem;
+    border: 1px solid #E5E7EB;
+}
+
+/* Toolbar button colors */
+.toolbar-btn.dialogue-btn:hover {
+    color: #1CB0F6;
+}
+
+.toolbar-btn.dialogue-btn.is-active {
+    background-color: #1CB0F6;
+}
+
+.toolbar-btn.monologue-btn:hover {
+    color: #8B5CF6;
+}
+
+.toolbar-btn.monologue-btn.is-active {
+    background-color: #8B5CF6;
+}
+
+.toolbar-btn.timestamp-btn:hover {
+    color: #6B7280;
+}
+
+.toolbar-btn.timestamp-btn.is-active {
+    background-color: #6B7280;
 }
 </style>

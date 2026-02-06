@@ -3,6 +3,7 @@
 use App\Http\Controllers\CharacterController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SceneController;
+use App\Http\Controllers\TagController;
 use App\Http\Controllers\TimelineController;
 use App\Http\Controllers\UniverseController;
 use Illuminate\Foundation\Application;
@@ -35,6 +36,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Character CRUD (nested under universe for store, shallow for others)
     Route::resource('universes.characters', CharacterController::class)->shallow();
+
+    // Tag CRUD (nested under universe for store, shallow for others)
+    Route::resource('universes.tags', TagController::class)->shallow()->except(['show']);
 
     // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

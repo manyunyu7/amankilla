@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TimelineController;
 use App\Http\Controllers\UniverseController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -21,6 +22,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Universe CRUD
     Route::resource('universes', UniverseController::class)->except(['index']);
+
+    // Timeline CRUD (nested under universe for store, shallow for others)
+    Route::resource('universes.timelines', TimelineController::class)->shallow();
 
     // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

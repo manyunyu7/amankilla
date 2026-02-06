@@ -430,7 +430,9 @@ composer setup
 | 15. Export | Complete | 7/8 |
 | 16. OAuth | Not Started | 0/5 |
 
-**Total: 203/203 tasks completed**
+**Total: 211/227 tasks completed (93%)**
+
+> Note: Remaining tasks are mobile responsiveness, future OAuth, and PDF export
 
 ---
 

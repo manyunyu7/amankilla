@@ -50,12 +50,12 @@
 - [x] Test logout flow
 
 ### Frontend
-- [ ] Customize login page with Duolingo style
-- [ ] Customize register page with Duolingo style
+- [x] Customize login page with Duolingo style
+- [x] Customize register page with Duolingo style
 - [x] Create AppLayout.vue
 - [x] Create GuestLayout.vue
-- [ ] Add user dropdown in header
-- [ ] Handle auth errors gracefully
+- [x] Add user dropdown in header
+- [x] Handle auth errors gracefully
 
 ---
 
@@ -414,7 +414,7 @@ composer setup
 | Phase | Status | Progress |
 |-------|--------|----------|
 | 1. Foundation | Complete | 24/25 |
-| 2. Authentication | In Progress | 9/13 |
+| 2. Authentication | Complete | 13/13 |
 | 3. Universe CRUD | Complete | 15/15 |
 | 4. Timeline CRUD | Complete | 14/14 |
 | 5. Scene CRUD | Complete | 14/14 |
@@ -430,7 +430,7 @@ composer setup
 | 15. Export | Complete | 7/8 |
 | 16. OAuth | Not Started | 0/5 |
 
-**Total: 194/203 tasks completed**
+**Total: 198/203 tasks completed**
 
 ---
 

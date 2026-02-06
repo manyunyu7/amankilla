@@ -1,125 +1,161 @@
 <script setup>
 import { ref } from 'vue';
-import ApplicationLogo from '@/Components/ApplicationLogo.vue';
-import Dropdown from '@/Components/Dropdown.vue';
-import DropdownLink from '@/Components/DropdownLink.vue';
-import NavLink from '@/Components/NavLink.vue';
-import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-import { Link } from '@inertiajs/vue3';
+import { Link, router } from '@inertiajs/vue3';
 
 const showingNavigationDropdown = ref(false);
+const showUserDropdown = ref(false);
+
+const logout = () => {
+    router.post(route('logout'));
+};
+
+// Close dropdown when clicking outside
+const closeDropdown = () => {
+    showUserDropdown.value = false;
+};
 </script>
 
 <template>
     <div>
-        <div class="min-h-screen bg-gray-100">
-            <nav
-                class="border-b border-gray-100 bg-white"
-            >
+        <div class="min-h-screen bg-bg-light">
+            <nav class="bg-white border-b border-border-gray shadow-sm">
                 <!-- Primary Navigation Menu -->
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div class="flex h-16 justify-between">
-                        <div class="flex">
+                        <div class="flex items-center">
                             <!-- Logo -->
-                            <div class="flex shrink-0 items-center">
-                                <Link :href="route('dashboard')">
-                                    <ApplicationLogo
-                                        class="block h-9 w-auto fill-current text-gray-800"
-                                    />
-                                </Link>
-                            </div>
+                            <Link :href="route('dashboard')" class="flex items-center gap-2">
+                                <div class="w-9 h-9 rounded-xl bg-primary flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                    </svg>
+                                </div>
+                                <span class="hidden sm:block font-nunito font-bold text-lg text-text-primary">
+                                    StoryBranch
+                                </span>
+                            </Link>
 
                             <!-- Navigation Links -->
-                            <div
-                                class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex"
-                            >
-                                <NavLink
+                            <div class="hidden sm:flex sm:items-center sm:ml-8 space-x-1">
+                                <Link
                                     :href="route('dashboard')"
-                                    :active="route().current('dashboard')"
+                                    :class="[
+                                        'px-4 py-2 rounded-xl font-nunito font-semibold text-sm transition-colors',
+                                        route().current('dashboard')
+                                            ? 'bg-primary-light text-primary'
+                                            : 'text-text-secondary hover:bg-bg-light-gray hover:text-text-primary',
+                                    ]"
                                 >
-                                    Dashboard
-                                </NavLink>
+                                    My Universes
+                                </Link>
+                                <Link
+                                    :href="route('explore.index')"
+                                    :class="[
+                                        'px-4 py-2 rounded-xl font-nunito font-semibold text-sm transition-colors',
+                                        route().current('explore.*')
+                                            ? 'bg-primary-light text-primary'
+                                            : 'text-text-secondary hover:bg-bg-light-gray hover:text-text-primary',
+                                    ]"
+                                >
+                                    Explore
+                                </Link>
                             </div>
                         </div>
 
-                        <div class="hidden sm:ms-6 sm:flex sm:items-center">
-                            <!-- Settings Dropdown -->
-                            <div class="relative ms-3">
-                                <Dropdown align="right" width="48">
-                                    <template #trigger>
-                                        <span class="inline-flex rounded-md">
-                                            <button
-                                                type="button"
-                                                class="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none"
-                                            >
+                        <!-- User Dropdown (Desktop) -->
+                        <div class="hidden sm:flex sm:items-center">
+                            <div class="relative">
+                                <button
+                                    @click="showUserDropdown = !showUserDropdown"
+                                    class="flex items-center gap-2 px-3 py-2 rounded-xl transition-colors hover:bg-bg-light-gray"
+                                >
+                                    <!-- User Avatar -->
+                                    <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white font-bold text-sm">
+                                        {{ $page.props.auth.user.name.charAt(0).toUpperCase() }}
+                                    </div>
+                                    <span class="font-nunito font-medium text-sm text-text-primary">
+                                        {{ $page.props.auth.user.name }}
+                                    </span>
+                                    <svg
+                                        :class="['w-4 h-4 text-text-hint transition-transform', showUserDropdown ? 'rotate-180' : '']"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </button>
+
+                                <!-- Dropdown Menu -->
+                                <Transition
+                                    enter-active-class="transition-all duration-200 ease-out"
+                                    leave-active-class="transition-all duration-150 ease-in"
+                                    enter-from-class="opacity-0 scale-95 -translate-y-2"
+                                    enter-to-class="opacity-100 scale-100 translate-y-0"
+                                    leave-from-class="opacity-100 scale-100 translate-y-0"
+                                    leave-to-class="opacity-0 scale-95 -translate-y-2"
+                                >
+                                    <div
+                                        v-if="showUserDropdown"
+                                        class="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg border-2 border-border-gray py-2 z-50"
+                                        @click="closeDropdown"
+                                    >
+                                        <!-- User Info -->
+                                        <div class="px-4 py-2 border-b border-border-gray">
+                                            <p class="font-nunito font-bold text-text-primary">
                                                 {{ $page.props.auth.user.name }}
+                                            </p>
+                                            <p class="text-sm text-text-hint truncate">
+                                                {{ $page.props.auth.user.email }}
+                                            </p>
+                                        </div>
 
-                                                <svg
-                                                    class="-me-0.5 ms-2 h-4 w-4"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 20 20"
-                                                    fill="currentColor"
-                                                >
-                                                    <path
-                                                        fill-rule="evenodd"
-                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                        clip-rule="evenodd"
-                                                    />
+                                        <!-- Menu Items -->
+                                        <div class="py-1">
+                                            <Link
+                                                :href="route('profile.edit')"
+                                                class="flex items-center gap-3 px-4 py-2 text-sm text-text-primary hover:bg-bg-light-gray transition-colors"
+                                            >
+                                                <svg class="w-4 h-4 text-text-hint" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                                 </svg>
-                                            </button>
-                                        </span>
-                                    </template>
+                                                Profile Settings
+                                            </Link>
+                                        </div>
 
-                                    <template #content>
-                                        <DropdownLink
-                                            :href="route('profile.edit')"
-                                        >
-                                            Profile
-                                        </DropdownLink>
-                                        <DropdownLink
-                                            :href="route('logout')"
-                                            method="post"
-                                            as="button"
-                                        >
-                                            Log Out
-                                        </DropdownLink>
-                                    </template>
-                                </Dropdown>
+                                        <!-- Logout -->
+                                        <div class="border-t border-border-gray pt-1">
+                                            <button
+                                                @click="logout"
+                                                class="w-full flex items-center gap-3 px-4 py-2 text-sm text-error hover:bg-error/5 transition-colors"
+                                            >
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                                </svg>
+                                                Log Out
+                                            </button>
+                                        </div>
+                                    </div>
+                                </Transition>
                             </div>
                         </div>
 
-                        <!-- Hamburger -->
-                        <div class="-me-2 flex items-center sm:hidden">
+                        <!-- Hamburger (Mobile) -->
+                        <div class="flex items-center sm:hidden">
                             <button
-                                @click="
-                                    showingNavigationDropdown =
-                                        !showingNavigationDropdown
-                                "
-                                class="inline-flex items-center justify-center rounded-md p-2 text-gray-400 transition duration-150 ease-in-out hover:bg-gray-100 hover:text-gray-500 focus:bg-gray-100 focus:text-gray-500 focus:outline-none"
+                                @click="showingNavigationDropdown = !showingNavigationDropdown"
+                                class="p-2 rounded-xl text-text-hint hover:text-text-primary hover:bg-bg-light-gray transition-colors"
                             >
-                                <svg
-                                    class="h-6 w-6"
-                                    stroke="currentColor"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                >
+                                <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                                     <path
-                                        :class="{
-                                            hidden: showingNavigationDropdown,
-                                            'inline-flex':
-                                                !showingNavigationDropdown,
-                                        }"
+                                        :class="{ hidden: showingNavigationDropdown, 'inline-flex': !showingNavigationDropdown }"
                                         stroke-linecap="round"
                                         stroke-linejoin="round"
                                         stroke-width="2"
                                         d="M4 6h16M4 12h16M4 18h16"
                                     />
                                     <path
-                                        :class="{
-                                            hidden: !showingNavigationDropdown,
-                                            'inline-flex':
-                                                showingNavigationDropdown,
-                                        }"
+                                        :class="{ hidden: !showingNavigationDropdown, 'inline-flex': showingNavigationDropdown }"
                                         stroke-linecap="round"
                                         stroke-linejoin="round"
                                         stroke-width="2"
@@ -131,60 +167,79 @@ const showingNavigationDropdown = ref(false);
                     </div>
                 </div>
 
-                <!-- Responsive Navigation Menu -->
-                <div
-                    :class="{
-                        block: showingNavigationDropdown,
-                        hidden: !showingNavigationDropdown,
-                    }"
-                    class="sm:hidden"
+                <!-- Mobile Navigation Menu -->
+                <Transition
+                    enter-active-class="transition-all duration-200 ease-out"
+                    leave-active-class="transition-all duration-150 ease-in"
+                    enter-from-class="opacity-0 -translate-y-4"
+                    enter-to-class="opacity-100 translate-y-0"
+                    leave-from-class="opacity-100 translate-y-0"
+                    leave-to-class="opacity-0 -translate-y-4"
                 >
-                    <div class="space-y-1 pb-3 pt-2">
-                        <ResponsiveNavLink
-                            :href="route('dashboard')"
-                            :active="route().current('dashboard')"
-                        >
-                            Dashboard
-                        </ResponsiveNavLink>
-                    </div>
-
-                    <!-- Responsive Settings Options -->
-                    <div
-                        class="border-t border-gray-200 pb-1 pt-4"
-                    >
-                        <div class="px-4">
-                            <div
-                                class="text-base font-medium text-gray-800"
+                    <div v-if="showingNavigationDropdown" class="sm:hidden border-t border-border-gray">
+                        <div class="p-4 space-y-2">
+                            <Link
+                                :href="route('dashboard')"
+                                :class="[
+                                    'block px-4 py-3 rounded-xl font-nunito font-semibold transition-colors',
+                                    route().current('dashboard')
+                                        ? 'bg-primary-light text-primary'
+                                        : 'text-text-secondary hover:bg-bg-light-gray',
+                                ]"
                             >
-                                {{ $page.props.auth.user.name }}
-                            </div>
-                            <div class="text-sm font-medium text-gray-500">
-                                {{ $page.props.auth.user.email }}
-                            </div>
+                                My Universes
+                            </Link>
+                            <Link
+                                :href="route('explore.index')"
+                                :class="[
+                                    'block px-4 py-3 rounded-xl font-nunito font-semibold transition-colors',
+                                    route().current('explore.*')
+                                        ? 'bg-primary-light text-primary'
+                                        : 'text-text-secondary hover:bg-bg-light-gray',
+                                ]"
+                            >
+                                Explore
+                            </Link>
                         </div>
 
-                        <div class="mt-3 space-y-1">
-                            <ResponsiveNavLink :href="route('profile.edit')">
-                                Profile
-                            </ResponsiveNavLink>
-                            <ResponsiveNavLink
-                                :href="route('logout')"
-                                method="post"
-                                as="button"
-                            >
-                                Log Out
-                            </ResponsiveNavLink>
+                        <!-- Mobile User Section -->
+                        <div class="border-t border-border-gray p-4">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold">
+                                    {{ $page.props.auth.user.name.charAt(0).toUpperCase() }}
+                                </div>
+                                <div>
+                                    <p class="font-nunito font-bold text-text-primary">
+                                        {{ $page.props.auth.user.name }}
+                                    </p>
+                                    <p class="text-sm text-text-hint">
+                                        {{ $page.props.auth.user.email }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="space-y-2">
+                                <Link
+                                    :href="route('profile.edit')"
+                                    class="block px-4 py-3 rounded-xl text-text-secondary hover:bg-bg-light-gray font-nunito font-semibold transition-colors"
+                                >
+                                    Profile Settings
+                                </Link>
+                                <button
+                                    @click="logout"
+                                    class="w-full text-left px-4 py-3 rounded-xl text-error hover:bg-error/5 font-nunito font-semibold transition-colors"
+                                >
+                                    Log Out
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </Transition>
             </nav>
 
             <!-- Page Heading -->
-            <header
-                class="bg-white shadow"
-                v-if="$slots.header"
-            >
-                <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+            <header v-if="$slots.header" class="bg-white border-b border-border-gray">
+                <div class="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
                     <slot name="header" />
                 </div>
             </header>
@@ -194,5 +249,12 @@ const showingNavigationDropdown = ref(false);
                 <slot />
             </main>
         </div>
+
+        <!-- Click outside to close dropdown -->
+        <div
+            v-if="showUserDropdown"
+            class="fixed inset-0 z-40"
+            @click="closeDropdown"
+        />
     </div>
 </template>

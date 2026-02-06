@@ -1,10 +1,6 @@
 <script setup>
-import Checkbox from '@/Components/Checkbox.vue';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
+import { DButton, DInput, DToggle } from '@/Components/ui';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 
 defineProps({
@@ -33,68 +29,87 @@ const submit = () => {
     <GuestLayout>
         <Head title="Log in" />
 
-        <div v-if="status" class="mb-4 text-sm font-medium text-green-600">
+        <!-- Title -->
+        <div class="text-center mb-6">
+            <h1 class="text-2xl font-nunito font-bold text-text-primary">
+                Welcome back!
+            </h1>
+            <p class="text-text-secondary mt-1">
+                Log in to continue your story
+            </p>
+        </div>
+
+        <!-- Success status message -->
+        <div
+            v-if="status"
+            class="mb-4 p-3 rounded-xl bg-success-light text-success-dark text-sm font-medium"
+        >
             {{ status }}
         </div>
 
-        <form @submit.prevent="submit">
-            <div>
-                <InputLabel for="email" value="Email" />
+        <!-- Login form -->
+        <form @submit.prevent="submit" class="space-y-4">
+            <DInput
+                v-model="form.email"
+                type="email"
+                label="Email"
+                placeholder="your@email.com"
+                :error="form.errors.email"
+                required
+                autofocus
+                autocomplete="username"
+            />
 
-                <TextInput
-                    id="email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    v-model="form.email"
-                    required
-                    autofocus
-                    autocomplete="username"
-                />
+            <DInput
+                v-model="form.password"
+                type="password"
+                label="Password"
+                placeholder="Enter your password"
+                :error="form.errors.password"
+                required
+                autocomplete="current-password"
+            />
 
-                <InputError class="mt-2" :message="form.errors.email" />
-            </div>
-
-            <div class="mt-4">
-                <InputLabel for="password" value="Password" />
-
-                <TextInput
-                    id="password"
-                    type="password"
-                    class="mt-1 block w-full"
-                    v-model="form.password"
-                    required
-                    autocomplete="current-password"
-                />
-
-                <InputError class="mt-2" :message="form.errors.password" />
-            </div>
-
-            <div class="mt-4 block">
-                <label class="flex items-center">
-                    <Checkbox name="remember" v-model:checked="form.remember" />
-                    <span class="ms-2 text-sm text-gray-600"
-                        >Remember me</span
-                    >
+            <div class="flex items-center justify-between">
+                <label class="flex items-center gap-2 cursor-pointer">
+                    <input
+                        type="checkbox"
+                        v-model="form.remember"
+                        class="w-4 h-4 rounded border-border-gray text-primary focus:ring-primary focus:ring-offset-0"
+                    />
+                    <span class="text-sm text-text-secondary">Remember me</span>
                 </label>
-            </div>
 
-            <div class="mt-4 flex items-center justify-end">
                 <Link
                     v-if="canResetPassword"
                     :href="route('password.request')"
-                    class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    class="text-sm text-primary hover:text-primary-dark font-semibold transition-colors"
                 >
-                    Forgot your password?
+                    Forgot password?
                 </Link>
-
-                <PrimaryButton
-                    class="ms-4"
-                    :class="{ 'opacity-25': form.processing }"
-                    :disabled="form.processing"
-                >
-                    Log in
-                </PrimaryButton>
             </div>
+
+            <DButton
+                block
+                :loading="form.processing"
+                :disabled="form.processing || !form.email || !form.password"
+                @click="submit"
+            >
+                Log In
+            </DButton>
         </form>
+
+        <!-- Register link -->
+        <div class="mt-6 text-center">
+            <p class="text-text-secondary text-sm">
+                Don't have an account?
+                <Link
+                    :href="route('register')"
+                    class="text-primary hover:text-primary-dark font-semibold transition-colors"
+                >
+                    Sign up
+                </Link>
+            </p>
+        </div>
     </GuestLayout>
 </template>

@@ -18,6 +18,8 @@ class Universe extends Model
         'cover_image',
         'is_public',
         'allow_fork',
+        'forked_from_id',
+        'fork_count',
     ];
 
     protected function casts(): array
@@ -74,5 +76,57 @@ class Universe extends Model
     public function scenes()
     {
         return Scene::whereIn('timeline_id', $this->timelines()->pluck('id'));
+    }
+
+    /**
+     * Get the universe this was forked from.
+     */
+    public function forkedFrom(): BelongsTo
+    {
+        return $this->belongsTo(Universe::class, 'forked_from_id');
+    }
+
+    /**
+     * Get universes forked from this one.
+     */
+    public function forks(): HasMany
+    {
+        return $this->hasMany(Universe::class, 'forked_from_id');
+    }
+
+    /**
+     * Check if universe can be viewed by a user.
+     */
+    public function canBeViewedBy(?User $user): bool
+    {
+        // Owner can always view
+        if ($user && $this->user_id === $user->id) {
+            return true;
+        }
+
+        // Public universes can be viewed by anyone
+        return $this->is_public;
+    }
+
+    /**
+     * Check if universe can be forked by a user.
+     */
+    public function canBeForkedBy(?User $user): bool
+    {
+        if (!$user) {
+            return false;
+        }
+
+        // Must be public and allow fork
+        if (!$this->is_public || !$this->allow_fork) {
+            return false;
+        }
+
+        // Can't fork your own universe
+        if ($this->user_id === $user->id) {
+            return false;
+        }
+
+        return true;
     }
 }

@@ -296,19 +296,19 @@
 ## Phase 13: Public/Private & Sharing
 
 ### Backend
-- [ ] Add `is_public` to universe
-- [ ] Add `allow_fork` to universe
-- [ ] Create ExploreController (public universes)
-- [ ] Implement fork functionality
-- [ ] Track forked_from relationship
+- [x] Add `is_public` to universe
+- [x] Add `allow_fork` to universe
+- [x] Create ExploreController (public universes)
+- [x] Implement fork functionality
+- [x] Track forked_from relationship
 
 ### Frontend
-- [ ] Add visibility toggle in settings
-- [ ] Add fork permission toggle
-- [ ] Create Explore.vue page (public universes)
-- [ ] Create "Fork" button
-- [ ] Show fork count
-- [ ] Show "forked from" attribution
+- [x] Add visibility toggle in settings
+- [x] Add fork permission toggle
+- [x] Create Explore.vue page (public universes)
+- [x] Create "Fork" button
+- [x] Show fork count
+- [x] Show "forked from" attribution
 
 ---
 
@@ -425,12 +425,12 @@ composer setup
 | 10. Tags | Complete | 11/11 |
 | 11. Search & Filter | Complete | 13/13 |
 | 12. Import (Parser) | Complete | 18/18 |
-| 13. Public/Private | Not Started | 0/11 |
+| 13. Public/Private | Complete | 11/11 |
 | 14. Polish & UX | Not Started | 0/15 |
 | 15. Export | Not Started | 0/7 |
 | 16. OAuth | Not Started | 0/5 |
 
-**Total: 167/194 tasks completed**
+**Total: 178/194 tasks completed**
 
 ---
 

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CharacterController;
+use App\Http\Controllers\ExploreController;
 use App\Http\Controllers\ImportController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SceneController;
@@ -21,9 +22,16 @@ Route::get('/', function () {
     ]);
 });
 
+// Explore (public universes) - accessible without auth
+Route::get('/explore', [ExploreController::class, 'index'])->name('explore.index');
+Route::get('/explore/{universe}', [ExploreController::class, 'show'])->name('explore.show');
+
 Route::middleware(['auth', 'verified'])->group(function () {
     // Dashboard (Universe index)
     Route::get('/dashboard', [UniverseController::class, 'index'])->name('dashboard');
+
+    // Fork universe
+    Route::post('/explore/{universe}/fork', [ExploreController::class, 'fork'])->name('explore.fork');
 
     // Universe CRUD
     Route::resource('universes', UniverseController::class)->except(['index']);

@@ -31,6 +31,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Dashboard (Universe index)
     Route::get('/dashboard', [UniverseController::class, 'index'])->name('dashboard');
 
+    // Component Sandbox (dev only)
+    Route::get('/sandbox', function () {
+        return Inertia::render('Sandbox');
+    })->name('sandbox');
+
     // Fork universe
     Route::post('/explore/{universe}/fork', [ExploreController::class, 'fork'])->name('explore.fork');
 

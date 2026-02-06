@@ -34,7 +34,7 @@
 - [x] Create DToast component
 - [x] Create DModal component
 - [x] Create DBottomSheet component
-- [ ] Test all components in a sandbox page
+- [x] Test all components in a sandbox page
 
 ---
 
@@ -430,7 +430,7 @@ composer setup
 | 15. Export | Complete | 7/8 |
 | 16. OAuth | Not Started | 0/5 |
 
-**Total: 218/227 tasks completed (96%)**
+**Total: 219/227 tasks completed (96%)**
 
 > Note: Remaining tasks are mobile responsiveness, future OAuth, and PDF export
 

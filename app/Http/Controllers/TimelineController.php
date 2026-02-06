@@ -58,7 +58,7 @@ class TimelineController extends Controller
     {
         Gate::authorize('view', $timeline->universe);
 
-        $timeline->load(['scenes' => fn ($q) => $q->orderBy('order'), 'branchFrom']);
+        $timeline->load(['scenes' => fn ($q) => $q->orderBy('order'), 'branchFrom.timeline']);
 
         return Inertia::render('Timeline/Show', [
             'timeline' => $timeline,

@@ -49,7 +49,7 @@ class UniverseController extends Controller
         Gate::authorize('view', $universe);
 
         $universe->load([
-            'timelines' => fn ($q) => $q->withCount('scenes'),
+            'timelines' => fn ($q) => $q->withCount('scenes')->with('branchFrom.timeline'),
             'characters',
             'tags',
         ]);

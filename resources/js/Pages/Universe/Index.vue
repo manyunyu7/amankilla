@@ -171,6 +171,18 @@ const deleteTimeline = (timeline) => {
                             </div>
                             <div class="text-xs text-text-hint mt-1 ml-5">
                                 {{ timeline.scenes_count || 0 }} scenes
+                                <!-- Branch origin indicator -->
+                                <div v-if="timeline.branch_from" class="flex items-center gap-1 mt-1 text-text-hint">
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+                                    </svg>
+                                    <span class="truncate">
+                                        from "{{ timeline.branch_from.title }}"
+                                        <span v-if="timeline.branch_from.timeline" class="opacity-75">
+                                            ({{ timeline.branch_from.timeline.name }})
+                                        </span>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>

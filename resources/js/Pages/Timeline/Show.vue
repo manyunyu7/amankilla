@@ -76,6 +76,16 @@ const moodColors = {
                             <p v-if="timeline.description" class="text-sm text-text-secondary">
                                 {{ timeline.description }}
                             </p>
+                            <!-- Branch origin indicator -->
+                            <p v-if="timeline.branch_from" class="text-sm text-text-hint flex items-center gap-1 mt-1">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+                                </svg>
+                                Branches from "{{ timeline.branch_from.title }}"
+                                <span v-if="timeline.branch_from.timeline">
+                                    in {{ timeline.branch_from.timeline.name }}
+                                </span>
+                            </p>
                         </div>
                     </div>
                 </div>

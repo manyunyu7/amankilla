@@ -181,19 +181,19 @@
 ## Phase 8: Branching System
 
 ### Backend
-- [ ] Add branch method to SceneController
-- [ ] Update scene with `is_branch_point` flag
-- [ ] Create new timeline from branch
-- [ ] Copy subsequent scenes (optional)
+- [x] Add branch method to SceneController
+- [x] Update scene with `is_branch_point` flag
+- [x] Create new timeline from branch
+- [x] Copy subsequent scenes (optional)
 
 ### Frontend
-- [ ] Create BranchPanel.vue
-- [ ] Add "Mark as Branch Point" toggle
-- [ ] Add "Create Alternate Timeline" button
-- [ ] Add branch question input
-- [ ] Show branch indicator on scene node
-- [ ] Show branch connections in graph
-- [ ] List all branches from a scene
+- [x] Create BranchPanel.vue
+- [x] Add "Mark as Branch Point" toggle
+- [x] Add "Create Alternate Timeline" button
+- [x] Add branch question input
+- [x] Show branch indicator on scene node
+- [x] Show branch connections in graph
+- [x] List all branches from a scene
 
 ---
 
@@ -420,7 +420,7 @@ composer setup
 | 5. Scene CRUD | Complete | 14/14 |
 | 6. Rich Text Editor | In Progress | 15/16 |
 | 7. Graph Visualization | In Progress | 10/12 |
-| 8. Branching System | Not Started | 0/11 |
+| 8. Branching System | Complete | 11/11 |
 | 9. Characters | Complete | 13/13 |
 | 10. Tags | Complete | 11/11 |
 | 11. Search & Filter | Not Started | 0/13 |
@@ -430,7 +430,7 @@ composer setup
 | 15. Export | Not Started | 0/7 |
 | 16. OAuth | Not Started | 0/5 |
 
-**Total: 125/194 tasks completed**
+**Total: 136/194 tasks completed**
 
 ---
 

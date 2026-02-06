@@ -174,4 +174,52 @@ class TagTest extends TestCase
             ->has('tags', 3)
         );
     }
+
+    public function test_quick_create_creates_new_tag(): void
+    {
+        $user = User::factory()->create();
+        $universe = Universe::factory()->create(['user_id' => $user->id]);
+
+        $response = $this->actingAs($user)->postJson(route('universes.tags.quick', $universe), [
+            'name' => 'quick-tag',
+        ]);
+
+        $response->assertStatus(201);
+        $response->assertJsonFragment(['name' => 'quick-tag']);
+        $this->assertDatabaseHas('tags', [
+            'universe_id' => $universe->id,
+            'name' => 'quick-tag',
+        ]);
+    }
+
+    public function test_quick_create_returns_existing_tag(): void
+    {
+        $user = User::factory()->create();
+        $universe = Universe::factory()->create(['user_id' => $user->id]);
+        $existingTag = Tag::factory()->create([
+            'universe_id' => $universe->id,
+            'name' => 'existing-tag',
+        ]);
+
+        $response = $this->actingAs($user)->postJson(route('universes.tags.quick', $universe), [
+            'name' => 'existing-tag',
+        ]);
+
+        $response->assertOk();
+        $response->assertJsonFragment(['id' => $existingTag->id]);
+        $this->assertDatabaseCount('tags', 1);
+    }
+
+    public function test_quick_create_forbidden_for_others_universe(): void
+    {
+        $user = User::factory()->create();
+        $otherUser = User::factory()->create();
+        $universe = Universe::factory()->create(['user_id' => $otherUser->id]);
+
+        $response = $this->actingAs($user)->postJson(route('universes.tags.quick', $universe), [
+            'name' => 'quick-tag',
+        ]);
+
+        $response->assertForbidden();
+    }
 }

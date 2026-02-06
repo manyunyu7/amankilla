@@ -39,6 +39,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Tag CRUD (nested under universe for store, shallow for others)
     Route::resource('universes.tags', TagController::class)->shallow()->except(['show']);
+    Route::post('/universes/{universe}/tags/quick', [TagController::class, 'quickCreate'])
+        ->name('universes.tags.quick');
 
     // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

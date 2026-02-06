@@ -6,3 +6,5 @@ export { default as DToggle } from './DToggle.vue';
 export { default as DToast } from './DToast.vue';
 export { default as DModal } from './DModal.vue';
 export { default as DBottomSheet } from './DBottomSheet.vue';
+export { default as DTagChip } from './DTagChip.vue';
+export { default as DTagSelector } from './DTagSelector.vue';

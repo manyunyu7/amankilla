@@ -325,7 +325,7 @@
 ### Mobile Responsive
 - [x] Make sidebar collapsible
 - [x] Create mobile navigation
-- [ ] Make graph zoomable on touch
+- [x] Make graph zoomable on touch
 - [ ] Make editor mobile-friendly
 - [ ] Test on various screen sizes
 
@@ -426,11 +426,11 @@ composer setup
 | 11. Search & Filter | Complete | 13/13 |
 | 12. Import (Parser) | Complete | 18/18 |
 | 13. Public/Private | Complete | 11/11 |
-| 14. Polish & UX | In Progress | 14/15 |
+| 14. Polish & UX | In Progress | 15/15 |
 | 15. Export | Complete | 7/8 |
 | 16. OAuth | Not Started | 0/5 |
 
-**Total: 216/227 tasks completed (95%)**
+**Total: 217/227 tasks completed (96%)**
 
 > Note: Remaining tasks are mobile responsiveness, future OAuth, and PDF export
 

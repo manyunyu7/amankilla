@@ -33,6 +33,8 @@ const emit = defineEmits(['scene-click', 'scene-dblclick', 'update:selectedScene
 
 // Track if graph has been rendered for animation
 const isRendered = ref(false);
+// Track if touch hint should be shown
+const showTouchHint = ref(true);
 
 const { fitView } = useVueFlow();
 
@@ -162,6 +164,11 @@ onMounted(() => {
             isRendered.value = true;
         }, 500);
     }, 100);
+
+    // Hide touch hint after 5 seconds
+    setTimeout(() => {
+        showTouchHint.value = false;
+    }, 5000);
 });
 
 // Custom node type registration
@@ -180,7 +187,14 @@ const nodeTypes = {
             :fit-view-on-init="true"
             :pan-on-scroll="true"
             :zoom-on-scroll="true"
+            :zoom-on-pinch="true"
+            :pan-on-drag="true"
             :prevent-scrolling="false"
+            :min-zoom="0.2"
+            :max-zoom="2"
+            :snap-to-grid="false"
+            selection-key-code=""
+            pan-activation-key-code=""
             @node-click="handleNodeClick"
             @node-double-click="handleNodeDoubleClick"
         >
@@ -190,7 +204,7 @@ const nodeTypes = {
         </VueFlow>
 
         <!-- Timeline Legend -->
-        <div class="absolute top-4 left-4 bg-white rounded-xl shadow-md p-3 space-y-2 max-w-xs">
+        <div class="absolute top-4 left-4 bg-white rounded-xl shadow-md p-3 space-y-2 max-w-xs z-10">
             <h4 class="font-nunito font-bold text-sm text-text-primary">Timelines</h4>
             <div
                 v-for="timeline in timelines"
@@ -212,6 +226,23 @@ const nodeTypes = {
                 </span>
             </div>
         </div>
+
+        <!-- Mobile touch hint (hidden on desktop) -->
+        <Transition
+            enter-active-class="transition-opacity duration-300"
+            leave-active-class="transition-opacity duration-300"
+            enter-from-class="opacity-0"
+            enter-to-class="opacity-100"
+            leave-from-class="opacity-100"
+            leave-to-class="opacity-0"
+        >
+            <div
+                v-if="showTouchHint"
+                class="absolute bottom-20 left-1/2 -translate-x-1/2 sm:hidden bg-black/60 text-white text-xs px-3 py-1.5 rounded-full z-10 pointer-events-none"
+            >
+                Pinch to zoom • Drag to pan
+            </div>
+        </Transition>
     </div>
 </template>
 

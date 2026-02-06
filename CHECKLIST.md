@@ -342,16 +342,16 @@
 ## Phase 15: Export & Backup
 
 ### Export Formats
-- [ ] Export as Markdown
-- [ ] Export as PDF
-- [ ] Export as JSON (full backup)
-- [ ] Export single timeline
-- [ ] Export single scene
+- [x] Export as Markdown
+- [ ] Export as PDF (future)
+- [x] Export as JSON (full backup)
+- [x] Export single timeline
+- [x] Export single scene
 
 ### Frontend
-- [ ] Add export dropdown menu
-- [ ] Show export progress
-- [ ] Download generated file
+- [x] Add export dropdown menu
+- [x] Show export progress
+- [x] Download generated file
 
 ---
 
@@ -427,10 +427,10 @@ composer setup
 | 12. Import (Parser) | Complete | 18/18 |
 | 13. Public/Private | Complete | 11/11 |
 | 14. Polish & UX | Not Started | 0/15 |
-| 15. Export | Not Started | 0/7 |
+| 15. Export | Complete | 7/8 |
 | 16. OAuth | Not Started | 0/5 |
 
-**Total: 178/194 tasks completed**
+**Total: 185/194 tasks completed**
 
 ---
 

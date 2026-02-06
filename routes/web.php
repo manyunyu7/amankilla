@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CharacterController;
 use App\Http\Controllers\ExploreController;
+use App\Http\Controllers\ExportController;
 use App\Http\Controllers\ImportController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SceneController;
@@ -77,6 +78,20 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('universes.import');
     Route::post('/universes/{universe}/import/stats', [ImportController::class, 'stats'])
         ->name('universes.import.stats');
+
+    // Export
+    Route::get('/universes/{universe}/export/json', [ExportController::class, 'json'])
+        ->name('universes.export.json');
+    Route::get('/universes/{universe}/export/markdown', [ExportController::class, 'markdown'])
+        ->name('universes.export.markdown');
+    Route::get('/timelines/{timeline}/export/json', [ExportController::class, 'timelineJson'])
+        ->name('timelines.export.json');
+    Route::get('/timelines/{timeline}/export/markdown', [ExportController::class, 'timelineMarkdown'])
+        ->name('timelines.export.markdown');
+    Route::get('/scenes/{scene}/export/json', [ExportController::class, 'sceneJson'])
+        ->name('scenes.export.json');
+    Route::get('/scenes/{scene}/export/markdown', [ExportController::class, 'sceneMarkdown'])
+        ->name('scenes.export.markdown');
 
     // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

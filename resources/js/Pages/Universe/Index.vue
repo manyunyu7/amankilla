@@ -18,6 +18,7 @@ const props = defineProps({
 
 const selectedSceneId = ref(null);
 const viewMode = ref('graph'); // 'graph' or 'list'
+const showExportMenu = ref(false);
 
 const handleSceneClick = (scene) => {
     selectedSceneId.value = scene.id;
@@ -125,6 +126,42 @@ const deleteTimeline = (timeline) => {
                             Import
                         </DButton>
                     </Link>
+                    <!-- Export Dropdown -->
+                    <div class="relative">
+                        <DButton variant="ghost" size="sm" @click="showExportMenu = !showExportMenu">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                            </svg>
+                            Export
+                            <svg class="w-3 h-3 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </DButton>
+                        <div
+                            v-if="showExportMenu"
+                            class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border-2 border-border-light py-2 z-50"
+                            @click="showExportMenu = false"
+                        >
+                            <a
+                                :href="route('universes.export.json', universe.id)"
+                                class="block px-4 py-2 text-sm text-text-primary hover:bg-bg-light-gray transition-colors"
+                            >
+                                <svg class="w-4 h-4 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                                Export as JSON
+                            </a>
+                            <a
+                                :href="route('universes.export.markdown', universe.id)"
+                                class="block px-4 py-2 text-sm text-text-primary hover:bg-bg-light-gray transition-colors"
+                            >
+                                <svg class="w-4 h-4 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                                Export as Markdown
+                            </a>
+                        </div>
+                    </div>
                     <Link :href="route('universes.search.index', universe.id)">
                         <DButton variant="ghost" size="sm">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

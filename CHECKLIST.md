@@ -326,7 +326,7 @@
 - [x] Make sidebar collapsible
 - [x] Create mobile navigation
 - [x] Make graph zoomable on touch
-- [ ] Make editor mobile-friendly
+- [x] Make editor mobile-friendly
 - [ ] Test on various screen sizes
 
 ### Quality of Life
@@ -430,7 +430,7 @@ composer setup
 | 15. Export | Complete | 7/8 |
 | 16. OAuth | Not Started | 0/5 |
 
-**Total: 217/227 tasks completed (96%)**
+**Total: 218/227 tasks completed (96%)**
 
 > Note: Remaining tasks are mobile responsiveness, future OAuth, and PDF export
 

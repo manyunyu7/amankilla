@@ -178,9 +178,9 @@ defineExpose({
 <template>
     <div class="scene-editor">
         <!-- Toolbar -->
-        <div v-if="editable" class="editor-toolbar flex flex-wrap items-center gap-1 p-2 bg-bg-light-gray border-2 border-b-0 border-border-gray rounded-t-xl">
+        <div v-if="editable" class="editor-toolbar sticky top-0 z-10 flex flex-wrap items-center gap-1 p-2 bg-bg-light-gray border-2 border-b-0 border-border-gray rounded-t-xl">
             <!-- Text formatting -->
-            <div class="flex items-center gap-1 pr-2 border-r border-border-gray">
+            <div class="flex items-center gap-0.5 sm:gap-1 pr-2 border-r border-border-gray">
                 <button
                     type="button"
                     :class="[
@@ -236,7 +236,7 @@ defineExpose({
             </div>
 
             <!-- Headings -->
-            <div class="flex items-center gap-1 pr-2 border-r border-border-gray">
+            <div class="hidden sm:flex items-center gap-1 pr-2 border-r border-border-gray">
                 <button
                     type="button"
                     :class="[
@@ -262,7 +262,7 @@ defineExpose({
             </div>
 
             <!-- Lists -->
-            <div class="flex items-center gap-1 pr-2 border-r border-border-gray">
+            <div class="hidden sm:flex items-center gap-1 pr-2 border-r border-border-gray">
                 <button
                     type="button"
                     :class="[
@@ -292,7 +292,7 @@ defineExpose({
             </div>
 
             <!-- Block formatting -->
-            <div class="flex items-center gap-1 pr-2 border-r border-border-gray">
+            <div class="hidden sm:flex items-center gap-1 pr-2 border-r border-border-gray">
                 <button
                     type="button"
                     :class="[
@@ -322,7 +322,7 @@ defineExpose({
             </div>
 
             <!-- Story formatting -->
-            <div class="flex items-center gap-1 pr-2 border-r border-border-gray">
+            <div class="flex items-center gap-0.5 sm:gap-1 pr-2 border-r border-border-gray">
                 <button
                     type="button"
                     :class="[
@@ -365,7 +365,7 @@ defineExpose({
             </div>
 
             <!-- Undo/Redo -->
-            <div class="flex items-center gap-1">
+            <div class="flex items-center gap-0.5 sm:gap-1">
                 <button
                     type="button"
                     class="toolbar-btn"
@@ -406,7 +406,7 @@ defineExpose({
         >
             <EditorContent
                 :editor="editor"
-                class="prose prose-sm max-w-none p-4 min-h-[300px] focus:outline-none"
+                class="prose prose-sm max-w-none p-3 sm:p-4 min-h-[200px] sm:min-h-[300px] focus:outline-none"
             />
         </div>
     </div>
@@ -414,15 +414,37 @@ defineExpose({
 
 <style scoped>
 .toolbar-btn {
-    padding: 0.5rem;
+    padding: 0.625rem;
     border-radius: 0.5rem;
     color: #6B7280;
     transition: all 0.15s ease;
+    /* Touch-friendly minimum size */
+    min-width: 2.5rem;
+    min-height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (min-width: 640px) {
+    .toolbar-btn {
+        padding: 0.5rem;
+        min-width: auto;
+        min-height: auto;
+    }
 }
 
 .toolbar-btn:hover {
     background-color: white;
     color: #1CB0F6;
+}
+
+/* Touch devices - active state instead of hover */
+@media (hover: none) {
+    .toolbar-btn:active {
+        background-color: white;
+        color: #1CB0F6;
+    }
 }
 
 .toolbar-btn:disabled {
@@ -437,7 +459,13 @@ defineExpose({
 
 .editor-content-wrapper :deep(.ProseMirror) {
     outline: none;
-    min-height: 300px;
+    min-height: 200px;
+}
+
+@media (min-width: 640px) {
+    .editor-content-wrapper :deep(.ProseMirror) {
+        min-height: 300px;
+    }
 }
 
 .editor-content-wrapper :deep(.ProseMirror p.is-editor-empty:first-child::before) {

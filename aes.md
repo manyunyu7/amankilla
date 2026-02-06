@@ -155,12 +155,12 @@ Total scenes: 298 imported, 30 skipped (too short)
 
 ### Branch Verification ✅ COMPLETED
 - [✅] Main timeline complete (Primary Story: 286 scenes)
-- [✅] MBTI Perspectives timeline linked (3 scenes)
+- [✅] MBTI Perspectives timeline linked (3 scenes, branches from Primary Story scene 22)
 - [✅] Rania & Papa timeline linked (3 scenes)
 - [✅] Rania & Mama (Original) timeline linked (5 scenes)
-- [✅] Rania & Mama (Healthy) timeline linked (1 scene)
-- [⚠️] Branch points marked correctly (basic timeline separation complete, explicit branch linking deferred)
-- [⚠️] Alternate versions linked to original scenes (deferred to Phase 7)
+- [✅] Rania & Mama (Healthy) timeline linked (1 scene, branches from Original scene 1)
+- [✅] **Branch points marked correctly** (5 branch points identified and marked)
+- [✅] **Alternate versions linked to original scenes** (2 timelines with explicit branch links)
 
 ### Technical Verification ✅ MOSTLY COMPLETED
 - [✅] No duplicate scenes (verified by order numbers)
@@ -327,20 +327,70 @@ Import is considered COMPLETE when ALL of these are true:
 - ✅ Content preserved with emojis
 - ✅ No data loss
 
+**Completed After Initial Import**:
+- ✅ Explicit branch point linking (5 branch points marked, 2 timeline links)
+- ✅ Branch questions added to decision points
+
 **Pending Items**:
 1. TipTap rich text conversion (content currently stored as plain text)
-2. Explicit branch point linking between timelines
-3. Search functionality testing
-4. Scene dependency generation
+2. Search functionality testing
+3. Scene dependency generation (optional)
 
 **Next Steps**:
 1. Test the UI with imported data
 2. Convert plain text to TipTap JSON format (optional enhancement)
 3. Set up explicit branch links (optional enhancement)
 
-**Last Updated**: 2026-02-06 (Iteration 1 - Import Complete)
+**Last Updated**: 2026-02-06 (Iteration 1 - Import Complete + Branching Fixed)
 
 ---
+
+## Branch Points Documented
+
+### Primary Story Branch Points (4 points)
+
+1. **Scene #22: "06.34 — INFJ di depan penginapan INFP"**
+   - **Branch Question**: How would different personality types analyze this relationship?
+   - **Branches To**: MBTI Perspectives timeline
+   - **Description**: Early in their relationship, this moment can be analyzed from 16 different personality perspectives
+
+2. **Scene #29: "Garut → Bandung / Jakarta: The Goodbye"**
+   - **Branch Question**: What if this isn't goodbye? What if they decide to fight for the relationship?
+   - **Branches To**: (Potential future alternate timeline)
+   - **Description**: A key decision point where the relationship could end or continue
+
+3. **Scene #79: "5. 'Aku Siapin Plan B, C, D Tanpa Kamu Minta'"**
+   - **Branch Question**: What if he doesn't resign? What if the relationship continues long-distance?
+   - **Branches To**: (Potential future alternate timeline)
+   - **Description**: The resign decision - a major life choice affecting the relationship
+
+4. **Scene #138: "'Aku Mau Jaga Kamu'"**
+   - **Branch Question**: What if the timeline changes? What if they don't meet the 2027 deadline?
+   - **Branches To**: (Potential future alternate timeline)
+   - **Description**: The 2027 timeline commitment - what if circumstances change?
+
+### Rania & Mama Branch Point (1 point)
+
+5. **Scene #1: "Membangun Budaya Jujur di Rumah INFP-INFJ"**
+   - **Branch Question**: What if Mama learns to adjust to Rania's personality?
+   - **Branches To**: Rania & Mama - Healthy timeline
+   - **Description**: The original challenging mother-daughter dynamic vs. the healthier adapted approach
+
+### Timeline Branch Structure
+
+```
+Primary Story (286 scenes)
+├─→ Scene #22 branches to → MBTI Perspectives (3 scenes)
+├─→ Scene #29: Potential branch point (The Goodbye)
+├─→ Scene #79: Potential branch point (Resign decision)
+└─→ Scene #138: Potential branch point (2027 timeline)
+
+Rania & Papa (3 scenes)
+└─→ Standalone timeline
+
+Rania & Mama - Original (5 scenes)
+└─→ Scene #1 branches to → Rania & Mama - Healthy (1 scene)
+```
 
 ## Iteration 1 Summary
 

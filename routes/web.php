@@ -3,6 +3,7 @@
 use App\Http\Controllers\CharacterController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SceneController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TimelineController;
 use App\Http\Controllers\UniverseController;
@@ -49,6 +50,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('universes.tags', TagController::class)->shallow()->except(['show']);
     Route::post('/universes/{universe}/tags/quick', [TagController::class, 'quickCreate'])
         ->name('universes.tags.quick');
+
+    // Search
+    Route::get('/universes/{universe}/search', [SearchController::class, 'search'])
+        ->name('universes.search');
+    Route::get('/universes/{universe}/search/filters', [SearchController::class, 'filters'])
+        ->name('universes.search.filters');
 
     // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

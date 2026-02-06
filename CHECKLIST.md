@@ -225,11 +225,11 @@
 - [x] Create TagController
 - [x] Implement CRUD operations
 - [x] Create scene_tag pivot table
-- [ ] Auto-create tags when adding to scene
+- [x] Auto-create tags when adding to scene
 
 ### Frontend
-- [ ] Create TagChip component
-- [ ] Create TagSelector component (multi-select)
+- [x] Create TagChip component
+- [x] Create TagSelector component (multi-select)
 - [x] Create tags management section
 - [x] Add tag color picker
 - [x] Add tag category selector
@@ -422,7 +422,7 @@ composer setup
 | 7. Graph Visualization | Not Started | 0/12 |
 | 8. Branching System | Not Started | 0/11 |
 | 9. Characters | Complete | 13/13 |
-| 10. Tags | In Progress | 7/11 |
+| 10. Tags | In Progress | 10/11 |
 | 11. Search & Filter | Not Started | 0/13 |
 | 12. Import (Parser) | Not Started | 0/18 |
 | 13. Public/Private | Not Started | 0/11 |
@@ -430,7 +430,7 @@ composer setup
 | 15. Export | Not Started | 0/7 |
 | 16. OAuth | Not Started | 0/5 |
 
-**Total: 111/194 tasks completed**
+**Total: 114/194 tasks completed**
 
 ---
 

@@ -84,6 +84,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/universes/{universe}/import/stats', [ImportController::class, 'stats'])
         ->name('universes.import.stats');
 
+    // Raw.md Import (special import for the story file)
+    Route::post('/import/raw-md', [ImportController::class, 'importRawMd'])
+        ->name('import.raw-md');
+    Route::get('/import/raw-md/status', [ImportController::class, 'importStatus'])
+        ->name('import.raw-md.status');
+
     // Export
     Route::get('/universes/{universe}/export/json', [ExportController::class, 'json'])
         ->name('universes.export.json');

@@ -8,9 +8,11 @@ use App\Models\Tag;
 use App\Models\Timeline;
 use App\Models\Universe;
 use App\Services\RawParser;
+use App\Services\RawImporter;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
@@ -248,6 +250,83 @@ class ImportController extends Controller
         ]);
 
         $stats = $this->parser->getStats($validated['content']);
+
+        return response()->json($stats);
+    }
+
+    /**
+     * Import raw.md story file
+     */
+    public function importRawMd(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'dry_run' => 'sometimes|boolean',
+        ]);
+
+        $filePath = base_path('raw.md');
+
+        if (!file_exists($filePath)) {
+            return response()->json([
+                'success' => false,
+                'error' => 'raw.md file not found in project root',
+            ], 404);
+        }
+
+        try {
+            $importer = new RawImporter($filePath);
+            $dryRun = $validated['dry_run'] ?? false;
+
+            $result = $importer->import(Auth::id(), $dryRun);
+
+            $statusCode = $result['success'] ? 200 : 500;
+
+            return response()->json($result, $statusCode);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error' => $e->getMessage(),
+                'trace' => config('app.debug') ? $e->getTraceAsString() : null,
+            ], 500);
+        }
+    }
+
+    /**
+     * Get import status/statistics for raw.md import
+     */
+    public function importStatus(): JsonResponse
+    {
+        $user = Auth::user();
+
+        // Find the INFJ × INFP universe
+        $universe = $user->universes()
+            ->where('name', 'INFJ × INFP Journey')
+            ->with(['timelines.scenes', 'characters', 'tags'])
+            ->first();
+
+        if (!$universe) {
+            return response()->json([
+                'imported' => false,
+                'message' => 'No import found',
+            ]);
+        }
+
+        $stats = [
+            'imported' => true,
+            'universe_id' => $universe->id,
+            'universe_name' => $universe->name,
+            'timelines' => $universe->timelines->map(function ($timeline) {
+                return [
+                    'id' => $timeline->id,
+                    'name' => $timeline->name,
+                    'scene_count' => $timeline->scenes->count(),
+                    'is_canon' => $timeline->is_canon,
+                ];
+            }),
+            'total_scenes' => $universe->timelines->sum(fn($t) => $t->scenes->count()),
+            'total_characters' => $universe->characters->count(),
+            'total_tags' => $universe->tags->count(),
+        ];
 
         return response()->json($stats);
     }

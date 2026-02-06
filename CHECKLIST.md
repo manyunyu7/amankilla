@@ -261,35 +261,35 @@
 ## Phase 12: Import (raw.md Parser)
 
 ### Parser Service
-- [ ] Create RawParser service class
-- [ ] Detect scene start patterns
-- [ ] Detect scene end patterns
-- [ ] Filter out prompts/meta content
-- [ ] Extract title from scene header
-- [ ] Extract timestamps
-- [ ] Detect characters from dialogue
-- [ ] Detect mood from keywords
-- [ ] Detect location from keywords
-- [ ] Detect potential branch points
-- [ ] Generate tags from content
+- [x] Create RawParser service class
+- [x] Detect scene start patterns
+- [x] Detect scene end patterns
+- [x] Filter out prompts/meta content
+- [x] Extract title from scene header
+- [x] Extract timestamps
+- [x] Detect characters from dialogue
+- [x] Detect mood from keywords
+- [x] Detect location from keywords
+- [x] Detect potential branch points
+- [x] Generate tags from content
 
 ### Backend
-- [ ] Create ImportController
-- [ ] Handle file upload
-- [ ] Parse uploaded file with RawParser
-- [ ] Create universe from parsed data
-- [ ] Create timeline (canon)
-- [ ] Create scenes with metadata
-- [ ] Create characters (INFJ, INFP)
-- [ ] Create tags
+- [x] Create ImportController
+- [x] Handle file upload
+- [x] Parse uploaded file with RawParser
+- [x] Create universe from parsed data
+- [x] Create timeline (canon)
+- [x] Create scenes with metadata
+- [x] Create characters (INFJ, INFP)
+- [x] Create tags
 
 ### Frontend
-- [ ] Create Universe/Import.vue page
-- [ ] Add file upload component
-- [ ] Show parsing preview
-- [ ] Allow editing before import
-- [ ] Show import progress
-- [ ] Handle import errors
+- [x] Create Universe/Import.vue page
+- [x] Add file upload component
+- [x] Show parsing preview
+- [x] Allow editing before import
+- [x] Show import progress
+- [x] Handle import errors
 
 ---
 
@@ -424,13 +424,13 @@ composer setup
 | 9. Characters | Complete | 13/13 |
 | 10. Tags | Complete | 11/11 |
 | 11. Search & Filter | Complete | 13/13 |
-| 12. Import (Parser) | Not Started | 0/18 |
+| 12. Import (Parser) | Complete | 18/18 |
 | 13. Public/Private | Not Started | 0/11 |
 | 14. Polish & UX | Not Started | 0/15 |
 | 15. Export | Not Started | 0/7 |
 | 16. OAuth | Not Started | 0/5 |
 
-**Total: 149/194 tasks completed**
+**Total: 167/194 tasks completed**
 
 ---
 

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CharacterController;
+use App\Http\Controllers\ImportController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SceneController;
 use App\Http\Controllers\SearchController;
@@ -58,6 +59,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('universes.search');
     Route::get('/universes/{universe}/search/filters', [SearchController::class, 'filters'])
         ->name('universes.search.filters');
+
+    // Import
+    Route::get('/universes/{universe}/import', [ImportController::class, 'index'])
+        ->name('universes.import.index');
+    Route::post('/universes/{universe}/import/preview', [ImportController::class, 'preview'])
+        ->name('universes.import.preview');
+    Route::post('/universes/{universe}/import', [ImportController::class, 'import'])
+        ->name('universes.import');
+    Route::post('/universes/{universe}/import/stats', [ImportController::class, 'stats'])
+        ->name('universes.import.stats');
 
     // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

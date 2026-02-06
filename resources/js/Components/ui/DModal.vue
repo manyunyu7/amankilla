@@ -94,12 +94,12 @@ onUnmounted(() => {
                 <!-- Modal container -->
                 <div class="flex min-h-full items-center justify-center p-4">
                     <Transition
-                        enter-active-class="transition-all duration-200 ease-out"
-                        leave-active-class="transition-all duration-150 ease-in"
-                        enter-from-class="opacity-0 scale-95"
-                        enter-to-class="opacity-100 scale-100"
-                        leave-from-class="opacity-100 scale-100"
-                        leave-to-class="opacity-0 scale-95"
+                        enter-active-class="transition-all duration-300 ease-out"
+                        leave-active-class="transition-all duration-200 ease-in"
+                        enter-from-class="opacity-0 scale-95 translate-y-4"
+                        enter-to-class="opacity-100 scale-100 translate-y-0"
+                        leave-from-class="opacity-100 scale-100 translate-y-0"
+                        leave-to-class="opacity-0 scale-95 translate-y-4"
                     >
                         <div
                             v-if="show"

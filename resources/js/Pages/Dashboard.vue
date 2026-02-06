@@ -1,8 +1,9 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { Head, useForm, router } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { DButton, DCard, DInput, DModal } from '@/Components/ui';
+import { DButton, DCard, DInput, DModal, DTooltip } from '@/Components/ui';
+import { useKeyboardShortcuts } from '@/composables/useKeyboardShortcuts';
 
 const props = defineProps({
     universes: {
@@ -12,10 +13,17 @@ const props = defineProps({
 });
 
 const showCreateModal = ref(false);
+const isLoaded = ref(false);
 
 const form = useForm({
     name: '',
     description: '',
+});
+
+// Keyboard shortcuts
+useKeyboardShortcuts({
+    'ctrl+n': () => { showCreateModal.value = true; },
+    'escape': () => { showCreateModal.value = false; },
 });
 
 const createUniverse = () => {
@@ -30,6 +38,13 @@ const createUniverse = () => {
 const openUniverse = (universe) => {
     router.visit(route('universes.show', universe.id));
 };
+
+// Trigger animations after mount
+onMounted(() => {
+    setTimeout(() => {
+        isLoaded.value = true;
+    }, 50);
+});
 </script>
 
 <template>
@@ -41,12 +56,14 @@ const openUniverse = (universe) => {
                 <h2 class="text-xl font-nunito font-bold text-text-primary">
                     Your Universes
                 </h2>
-                <DButton @click="showCreateModal = true">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                    </svg>
-                    New Universe
-                </DButton>
+                <DTooltip text="Ctrl+N" position="bottom">
+                    <DButton @click="showCreateModal = true">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        </svg>
+                        New Universe
+                    </DButton>
+                </DTooltip>
             </div>
         </template>
 
@@ -77,9 +94,14 @@ const openUniverse = (universe) => {
                 <!-- Universe grid -->
                 <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <DCard
-                        v-for="universe in universes"
+                        v-for="(universe, index) in universes"
                         :key="universe.id"
                         variant="interactive"
+                        :class="[
+                            'opacity-0',
+                            isLoaded ? 'animate-fade-in-up' : '',
+                        ]"
+                        :style="{ animationDelay: `${index * 50}ms`, animationFillMode: 'forwards' }"
                         @click="openUniverse(universe)"
                     >
                         <!-- Cover image or placeholder -->

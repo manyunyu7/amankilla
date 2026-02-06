@@ -1,9 +1,10 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { DButton, DCard, DBadge, DInput, DModal, DToggle } from '@/Components/ui';
+import { DButton, DCard, DBadge, DInput, DModal, DToggle, DTooltip } from '@/Components/ui';
 import { TimelineGraph } from '@/Components/graph';
+import { useKeyboardShortcuts } from '@/composables/useKeyboardShortcuts';
 
 const props = defineProps({
     universe: {
@@ -19,6 +20,23 @@ const props = defineProps({
 const selectedSceneId = ref(null);
 const viewMode = ref('graph'); // 'graph' or 'list'
 const showExportMenu = ref(false);
+const sidebarCollapsed = ref(false);
+
+// Toggle sidebar
+const toggleSidebar = () => {
+    sidebarCollapsed.value = !sidebarCollapsed.value;
+};
+
+// Keyboard shortcuts
+useKeyboardShortcuts({
+    'ctrl+b': toggleSidebar,
+    'ctrl+k': () => router.visit(route('universes.search.index', props.universe.id)),
+    'escape': () => {
+        showExportMenu.value = false;
+        showTimelineModal.value = false;
+        showEditTimelineModal.value = false;
+    },
+});
 
 const handleSceneClick = (scene) => {
     selectedSceneId.value = scene.id;
@@ -184,8 +202,26 @@ const deleteTimeline = (timeline) => {
         </template>
 
         <div class="flex h-[calc(100vh-theme(spacing.16))]">
-            <!-- Sidebar -->
-            <aside class="w-64 bg-white border-r border-border-gray p-4 overflow-y-auto">
+            <!-- Sidebar wrapper -->
+            <div class="relative flex-shrink-0">
+                <!-- Sidebar -->
+                <aside
+                    :class="[
+                        'h-full bg-white border-r border-border-gray overflow-y-auto transition-all duration-300 ease-in-out smooth-scroll',
+                        sidebarCollapsed ? 'w-0 p-0 overflow-hidden' : 'w-64 p-4',
+                    ]"
+                >
+                    <!-- Collapse button (visible when expanded) -->
+                    <button
+                        v-if="!sidebarCollapsed"
+                        class="absolute right-2 top-2 p-1 text-text-hint hover:text-text-primary transition-colors z-10 bg-white rounded"
+                        @click="toggleSidebar"
+                        title="Collapse sidebar (Ctrl+B)"
+                    >
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
+                        </svg>
+                    </button>
                 <!-- Timelines section -->
                 <div class="mb-6">
                     <div class="flex items-center justify-between mb-3">
@@ -321,7 +357,20 @@ const deleteTimeline = (timeline) => {
                         <p class="text-sm">No tags yet</p>
                     </div>
                 </div>
-            </aside>
+                </aside>
+
+                <!-- Expand sidebar button (visible when collapsed) -->
+                <button
+                    v-if="sidebarCollapsed"
+                    class="absolute top-0 left-0 w-10 h-full bg-white border-r border-border-gray flex items-start justify-center pt-4 hover:bg-bg-light-gray transition-colors"
+                    @click="toggleSidebar"
+                    title="Expand sidebar (Ctrl+B)"
+                >
+                    <svg class="w-5 h-5 text-text-hint" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+                    </svg>
+                </button>
+            </div>
 
             <!-- Main content - Graph visualization area -->
             <main class="flex-1 bg-bg-light p-6 overflow-auto">

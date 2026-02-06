@@ -8,3 +8,6 @@ export { default as DModal } from './DModal.vue';
 export { default as DBottomSheet } from './DBottomSheet.vue';
 export { default as DTagChip } from './DTagChip.vue';
 export { default as DTagSelector } from './DTagSelector.vue';
+export { default as DSkeleton } from './DSkeleton.vue';
+export { default as DTooltip } from './DTooltip.vue';
+export { default as DTransitionList } from './DTransitionList.vue';

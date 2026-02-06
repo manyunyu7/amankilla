@@ -48,8 +48,8 @@ const variantClasses = computed(() => {
             shadow: '',
         },
         interactive: {
-            wrapper: 'cursor-pointer',
-            card: 'bg-white border-2 border-border-gray hover:border-primary transition-colors',
+            wrapper: 'cursor-pointer hover-lift',
+            card: 'bg-white border-2 border-border-gray hover:border-primary transition-all duration-200',
             shadow: 'bg-border-dark',
         },
     };

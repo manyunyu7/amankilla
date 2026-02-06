@@ -95,12 +95,12 @@
 - [x] Implement destroy (delete timeline)
 
 ### Frontend
-- [ ] Create timeline store (Pinia)
+- [x] Create timeline store (Pinia)
 - [x] Create timeline sidebar component
 - [x] Create "New Timeline" modal
 - [x] Add timeline color picker
 - [x] Mark canon timeline indicator
-- [ ] Show branch origin for alternate timelines
+- [x] Show branch origin for alternate timelines
 
 ---
 
@@ -118,11 +118,11 @@
 - [x] Implement reorder (change scene order)
 
 ### Frontend
-- [ ] Create scene store (Pinia)
+- [x] Create scene store (Pinia)
 - [x] Create scene list view
 - [x] Create scene card component
 - [x] Create "New Scene" modal
-- [ ] Implement drag-and-drop reordering
+- [x] Implement drag-and-drop reordering
 
 ---
 
@@ -416,8 +416,8 @@ composer setup
 | 1. Foundation | Complete | 24/25 |
 | 2. Authentication | In Progress | 9/13 |
 | 3. Universe CRUD | Complete | 15/15 |
-| 4. Timeline CRUD | In Progress | 12/14 |
-| 5. Scene CRUD | In Progress | 12/14 |
+| 4. Timeline CRUD | Complete | 14/14 |
+| 5. Scene CRUD | Complete | 14/14 |
 | 6. Rich Text Editor | Not Started | 0/16 |
 | 7. Graph Visualization | Not Started | 0/12 |
 | 8. Branching System | Not Started | 0/11 |
@@ -430,7 +430,7 @@ composer setup
 | 15. Export | Not Started | 0/7 |
 | 16. OAuth | Not Started | 0/5 |
 
-**Total: 72/194 tasks completed**
+**Total: 76/194 tasks completed**
 
 ---
 

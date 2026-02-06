@@ -52,7 +52,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('universes.tags.quick');
 
     // Search
-    Route::get('/universes/{universe}/search', [SearchController::class, 'search'])
+    Route::get('/universes/{universe}/search', [SearchController::class, 'index'])
+        ->name('universes.search.index');
+    Route::get('/universes/{universe}/search/api', [SearchController::class, 'search'])
         ->name('universes.search');
     Route::get('/universes/{universe}/search/filters', [SearchController::class, 'filters'])
         ->name('universes.search.filters');

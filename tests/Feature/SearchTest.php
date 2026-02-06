@@ -218,4 +218,18 @@ class SearchTest extends TestCase
         $this->assertEquals('Apple', $results[0]['title']);
         $this->assertEquals('Zebra', $results[1]['title']);
     }
+
+    public function test_user_can_access_search_page(): void
+    {
+        $user = User::factory()->create();
+        $universe = Universe::factory()->create(['user_id' => $user->id]);
+
+        $response = $this->actingAs($user)->get(route('universes.search.index', $universe));
+
+        $response->assertOk();
+        $response->assertInertia(fn ($page) => $page
+            ->component('Universe/Search')
+            ->has('universe')
+        );
+    }
 }

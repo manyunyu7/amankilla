@@ -7,9 +7,23 @@ use App\Models\Universe;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class SearchController extends Controller
 {
+    /**
+     * Show the search page.
+     */
+    public function index(Universe $universe): Response
+    {
+        Gate::authorize('view', $universe);
+
+        return Inertia::render('Universe/Search', [
+            'universe' => $universe->load(['timelines', 'characters', 'tags']),
+        ]);
+    }
+
     /**
      * Search scenes within a universe.
      */

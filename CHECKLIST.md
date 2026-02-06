@@ -240,21 +240,21 @@
 ## Phase 11: Search & Filter
 
 ### Backend
-- [ ] Create SearchController
-- [ ] Implement full-text search (MySQL FULLTEXT)
-- [ ] Filter by tags
-- [ ] Filter by characters
-- [ ] Filter by mood
-- [ ] Filter by timeline
-- [ ] Sort by date/order
+- [x] Create SearchController
+- [x] Implement full-text search (MySQL FULLTEXT)
+- [x] Filter by tags
+- [x] Filter by characters
+- [x] Filter by mood
+- [x] Filter by timeline
+- [x] Sort by date/order
 
 ### Frontend
-- [ ] Create search store (Pinia)
-- [ ] Create search input component
-- [ ] Create filter panel component
-- [ ] Show search results
-- [ ] Highlight search terms
-- [ ] Navigate to scene from results
+- [x] Create search store (Pinia)
+- [x] Create search input component
+- [x] Create filter panel component
+- [x] Show search results
+- [x] Highlight search terms
+- [x] Navigate to scene from results
 
 ---
 
@@ -423,14 +423,14 @@ composer setup
 | 8. Branching System | Complete | 11/11 |
 | 9. Characters | Complete | 13/13 |
 | 10. Tags | Complete | 11/11 |
-| 11. Search & Filter | Not Started | 0/13 |
+| 11. Search & Filter | Complete | 13/13 |
 | 12. Import (Parser) | Not Started | 0/18 |
 | 13. Public/Private | Not Started | 0/11 |
 | 14. Polish & UX | Not Started | 0/15 |
 | 15. Export | Not Started | 0/7 |
 | 16. OAuth | Not Started | 0/5 |
 
-**Total: 136/194 tasks completed**
+**Total: 149/194 tasks completed**
 
 ---
 

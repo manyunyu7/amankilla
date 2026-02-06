@@ -143,14 +143,14 @@
 - [x] Show word count
 
 ### MetadataPanel Component
-- [ ] Create MetadataPanel.vue
-- [ ] Add title input
-- [ ] Add date/time inputs
-- [ ] Add location input
-- [ ] Add mood selector
-- [ ] Add POV selector
-- [ ] Add character multi-select
-- [ ] Add tag multi-select
+- [x] Create MetadataPanel.vue
+- [x] Add title input
+- [x] Add date/time inputs
+- [x] Add location input
+- [x] Add mood selector
+- [x] Add POV selector
+- [x] Add character multi-select
+- [x] Add tag multi-select
 
 ---
 
@@ -418,7 +418,7 @@ composer setup
 | 3. Universe CRUD | Complete | 15/15 |
 | 4. Timeline CRUD | Complete | 14/14 |
 | 5. Scene CRUD | Complete | 14/14 |
-| 6. Rich Text Editor | In Progress | 7/16 |
+| 6. Rich Text Editor | In Progress | 15/16 |
 | 7. Graph Visualization | Not Started | 0/12 |
 | 8. Branching System | Not Started | 0/11 |
 | 9. Characters | Not Started | 0/13 |
@@ -430,7 +430,7 @@ composer setup
 | 15. Export | Not Started | 0/7 |
 | 16. OAuth | Not Started | 0/5 |
 
-**Total: 83/194 tasks completed**
+**Total: 91/194 tasks completed**
 
 ---
 

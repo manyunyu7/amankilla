@@ -157,23 +157,23 @@
 ## Phase 7: Graph Visualization
 
 ### Setup
-- [ ] Install Vue Flow
-- [ ] Configure Vue Flow with custom nodes
-- [ ] Style graph with Duolingo theme
+- [x] Install Vue Flow
+- [x] Configure Vue Flow with custom nodes
+- [x] Style graph with Duolingo theme
 
 ### Components
-- [ ] Create TimelineGraph.vue (main container)
-- [ ] Create SceneNode.vue (custom node)
-- [ ] Create BranchLine.vue (custom edge)
-- [ ] Add zoom controls
-- [ ] Add pan functionality
-- [ ] Add minimap (optional)
+- [x] Create TimelineGraph.vue (main container)
+- [x] Create SceneNode.vue (custom node)
+- [x] Create BranchLine.vue (custom edge) - using smoothstep edges
+- [x] Add zoom controls
+- [x] Add pan functionality
+- [x] Add minimap (optional)
 
 ### Interactions
-- [ ] Click node to select scene
-- [ ] Double-click to open editor
+- [x] Click node to select scene
+- [x] Double-click to open editor
 - [ ] Highlight current timeline path
-- [ ] Show branch points with special indicator
+- [x] Show branch points with special indicator
 - [ ] Animate transitions between views
 
 ---
@@ -419,7 +419,7 @@ composer setup
 | 4. Timeline CRUD | Complete | 14/14 |
 | 5. Scene CRUD | Complete | 14/14 |
 | 6. Rich Text Editor | In Progress | 15/16 |
-| 7. Graph Visualization | Not Started | 0/12 |
+| 7. Graph Visualization | In Progress | 10/12 |
 | 8. Branching System | Not Started | 0/11 |
 | 9. Characters | Complete | 13/13 |
 | 10. Tags | Complete | 11/11 |
@@ -430,7 +430,7 @@ composer setup
 | 15. Export | Not Started | 0/7 |
 | 16. OAuth | Not Started | 0/5 |
 
-**Total: 115/194 tasks completed**
+**Total: 125/194 tasks completed**
 
 ---
 

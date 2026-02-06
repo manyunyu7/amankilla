@@ -3,7 +3,7 @@ import { ref, watch } from 'vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
-import { DButton, DCard, DBadge, DInput } from '@/Components/ui';
+import { DButton, DCard, DBadge, DInput, DEmptyState } from '@/Components/ui';
 import { usePage } from '@inertiajs/vue3';
 
 const props = defineProps({
@@ -156,15 +156,14 @@ watch(sort, applyFilters);
             </div>
 
             <!-- Empty State -->
-            <div v-else class="text-center py-12">
-                <svg class="w-16 h-16 mx-auto text-text-hint opacity-50 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                </svg>
-                <p class="font-nunito font-semibold text-text-primary mb-1">No Universes Found</p>
-                <p class="text-sm text-text-hint">
-                    {{ search ? 'Try a different search term' : 'Be the first to share your story!' }}
-                </p>
-            </div>
+            <DCard v-else variant="outlined" padding="lg">
+                <DEmptyState
+                    icon="explore"
+                    title="No Universes Found"
+                    :description="search ? 'Try a different search term' : 'Be the first to share your story!'"
+                    size="md"
+                />
+            </DCard>
 
             <!-- Pagination -->
             <div v-if="universes.last_page > 1" class="flex justify-center gap-2 mt-8">

@@ -2,7 +2,7 @@
 import { ref, computed } from 'vue';
 import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { DButton, DCard, DBadge, DInput, DModal, DConfirmModal } from '@/Components/ui';
+import { DButton, DCard, DBadge, DInput, DModal, DConfirmModal, DEmptyState } from '@/Components/ui';
 
 const props = defineProps({
     universe: {
@@ -147,24 +147,16 @@ const deleteTag = () => {
 
         <div class="py-6">
             <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div v-if="tags.length === 0" class="text-center py-12">
-                    <DCard padding="lg">
-                        <div class="w-20 h-20 mx-auto rounded-full bg-primary-light flex items-center justify-center mb-4">
-                            <svg class="w-10 h-10 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
-                            </svg>
-                        </div>
-                        <h3 class="text-xl font-nunito font-bold text-text-primary mb-2">
-                            No Tags Yet
-                        </h3>
-                        <p class="text-text-secondary mb-4">
-                            Create tags to organize and categorize your scenes
-                        </p>
-                        <DButton @click="openCreateModal">
-                            Create First Tag
-                        </DButton>
-                    </DCard>
-                </div>
+                <DCard v-if="tags.length === 0" padding="lg">
+                    <DEmptyState
+                        icon="tag"
+                        title="No Tags Yet"
+                        description="Create tags to organize and categorize your scenes"
+                        action-text="Create First Tag"
+                        size="lg"
+                        @action="openCreateModal"
+                    />
+                </DCard>
 
                 <div v-else class="space-y-6">
                     <div v-for="(categoryTags, category) in groupedTags" :key="category">

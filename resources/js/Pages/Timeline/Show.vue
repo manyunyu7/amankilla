@@ -3,7 +3,7 @@ import { ref, computed } from 'vue';
 import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import draggable from 'vuedraggable';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { DButton, DCard, DBadge, DInput, DModal, DConfirmModal } from '@/Components/ui';
+import { DButton, DCard, DBadge, DInput, DModal, DConfirmModal, DEmptyState } from '@/Components/ui';
 
 const props = defineProps({
     timeline: {
@@ -147,24 +147,16 @@ const moodColors = {
 
         <div class="py-6">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div v-if="!timeline.scenes || timeline.scenes.length === 0" class="text-center py-12">
-                    <DCard padding="lg">
-                        <div class="w-20 h-20 mx-auto rounded-full bg-primary-light flex items-center justify-center mb-4">
-                            <svg class="w-10 h-10 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                            </svg>
-                        </div>
-                        <h3 class="text-xl font-nunito font-bold text-text-primary mb-2">
-                            No Scenes Yet
-                        </h3>
-                        <p class="text-text-secondary mb-4">
-                            Start writing your story by adding the first scene
-                        </p>
-                        <DButton @click="showSceneModal = true">
-                            Create First Scene
-                        </DButton>
-                    </DCard>
-                </div>
+                <DCard v-if="!timeline.scenes || timeline.scenes.length === 0" padding="lg">
+                    <DEmptyState
+                        icon="scene"
+                        title="No Scenes Yet"
+                        description="Start writing your story by adding the first scene"
+                        action-text="Create First Scene"
+                        size="lg"
+                        @action="showSceneModal = true"
+                    />
+                </DCard>
 
                 <div v-else>
                     <!-- Reordering indicator -->

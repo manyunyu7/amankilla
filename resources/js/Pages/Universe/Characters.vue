@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { DButton, DCard, DBadge, DInput, DModal, DConfirmModal } from '@/Components/ui';
+import { DButton, DCard, DBadge, DInput, DModal, DConfirmModal, DEmptyState } from '@/Components/ui';
 
 const props = defineProps({
     universe: {
@@ -96,24 +96,16 @@ const deleteCharacter = () => {
 
         <div class="py-6">
             <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div v-if="characters.length === 0" class="text-center py-12">
-                    <DCard padding="lg">
-                        <div class="w-20 h-20 mx-auto rounded-full bg-primary-light flex items-center justify-center mb-4">
-                            <svg class="w-10 h-10 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                            </svg>
-                        </div>
-                        <h3 class="text-xl font-nunito font-bold text-text-primary mb-2">
-                            No Characters Yet
-                        </h3>
-                        <p class="text-text-secondary mb-4">
-                            Create characters to populate your story universe
-                        </p>
-                        <DButton @click="showCharacterModal = true">
-                            Create First Character
-                        </DButton>
-                    </DCard>
-                </div>
+                <DCard v-if="characters.length === 0" padding="lg">
+                    <DEmptyState
+                        icon="character"
+                        title="No Characters Yet"
+                        description="Create characters to populate your story universe"
+                        action-text="Create First Character"
+                        size="lg"
+                        @action="showCharacterModal = true"
+                    />
+                </DCard>
 
                 <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     <DCard

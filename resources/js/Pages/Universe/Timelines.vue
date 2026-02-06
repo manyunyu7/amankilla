@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { DButton, DCard, DBadge, DInput, DModal, DToggle, DConfirmModal } from '@/Components/ui';
+import { DButton, DCard, DBadge, DInput, DModal, DToggle, DConfirmModal, DEmptyState } from '@/Components/ui';
 
 const props = defineProps({
     universe: {
@@ -126,24 +126,16 @@ const deleteTimeline = () => {
 
         <div class="py-6">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div v-if="timelines.length === 0" class="text-center py-12">
-                    <DCard padding="lg">
-                        <div class="w-20 h-20 mx-auto rounded-full bg-primary-light flex items-center justify-center mb-4">
-                            <svg class="w-10 h-10 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                            </svg>
-                        </div>
-                        <h3 class="text-xl font-nunito font-bold text-text-primary mb-2">
-                            No Timelines Yet
-                        </h3>
-                        <p class="text-text-secondary mb-4">
-                            Create your first timeline to start organizing your story branches
-                        </p>
-                        <DButton @click="showTimelineModal = true">
-                            Create First Timeline
-                        </DButton>
-                    </DCard>
-                </div>
+                <DCard v-if="timelines.length === 0" padding="lg">
+                    <DEmptyState
+                        icon="timeline"
+                        title="No Timelines Yet"
+                        description="Create your first timeline to start organizing your story branches"
+                        action-text="Create First Timeline"
+                        size="lg"
+                        @action="showTimelineModal = true"
+                    />
+                </DCard>
 
                 <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <DCard

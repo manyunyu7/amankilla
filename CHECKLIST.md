@@ -85,21 +85,21 @@
 ## Phase 4: Timeline CRUD
 
 ### Backend
-- [ ] Create Timeline model
-- [ ] Create TimelineController
-- [ ] Create StoreTimelineRequest validation
-- [ ] Implement index (list timelines in universe)
-- [ ] Implement store (create timeline)
-- [ ] Implement show (timeline with scenes)
-- [ ] Implement update (edit timeline)
-- [ ] Implement destroy (delete timeline)
+- [x] Create Timeline model
+- [x] Create TimelineController
+- [x] Create StoreTimelineRequest validation
+- [x] Implement index (list timelines in universe)
+- [x] Implement store (create timeline)
+- [x] Implement show (timeline with scenes)
+- [x] Implement update (edit timeline)
+- [x] Implement destroy (delete timeline)
 
 ### Frontend
 - [ ] Create timeline store (Pinia)
-- [ ] Create timeline sidebar component
-- [ ] Create "New Timeline" modal
-- [ ] Add timeline color picker
-- [ ] Mark canon timeline indicator
+- [x] Create timeline sidebar component
+- [x] Create "New Timeline" modal
+- [x] Add timeline color picker
+- [x] Mark canon timeline indicator
 - [ ] Show branch origin for alternate timelines
 
 ---
@@ -416,7 +416,7 @@ composer setup
 | 1. Foundation | Complete | 24/25 |
 | 2. Authentication | In Progress | 9/13 |
 | 3. Universe CRUD | Complete | 15/15 |
-| 4. Timeline CRUD | Not Started | 0/14 |
+| 4. Timeline CRUD | In Progress | 12/14 |
 | 5. Scene CRUD | Not Started | 0/14 |
 | 6. Rich Text Editor | Not Started | 0/16 |
 | 7. Graph Visualization | Not Started | 0/12 |
@@ -430,7 +430,7 @@ composer setup
 | 15. Export | Not Started | 0/7 |
 | 16. OAuth | Not Started | 0/5 |
 
-**Total: 48/194 tasks completed**
+**Total: 60/194 tasks completed**
 
 ---
 

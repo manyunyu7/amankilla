@@ -1,134 +1,59 @@
-# StoryBranch
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-Multi-user branching narrative platform with Duolingo-style UI.
+<p align="center">
+<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+</p>
 
-## Overview
+## About Laravel
 
-StoryBranch is a web application where users can:
-- Create story universes with multiple timelines
-- Visualize branching narratives with an interactive graph
-- Edit scenes with a rich text editor
-- Create "what if" alternate branches from any decision point
-- Search and filter by tags, characters, mood, and more
+Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-## Tech Stack
+- [Simple, fast routing engine](https://laravel.com/docs/routing).
+- [Powerful dependency injection container](https://laravel.com/docs/container).
+- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
+- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
+- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
+- [Robust background job processing](https://laravel.com/docs/queues).
+- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-| Layer | Technology |
-|-------|------------|
-| Frontend | Nuxt 3 (Vue.js) |
-| Styling | Tailwind CSS + Custom Duolingo components |
-| Database | MySQL 9.2.0 |
-| ORM | Prisma |
-| Auth | Email/Password (JWT sessions) |
-| Graph Viz | Vue Flow |
-| Rich Editor | TipTap |
-| Font | Nunito (Google Fonts) |
+Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Color Palette
+## Learning Laravel
 
-- **Primary Blue**: `#1CB0F6`
-- **Primary Dark**: `#1899D6` (3D shadow)
-- **Primary Light**: `#DBEAFE`
-- **Success Green**: `#58CC02`
+Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
 
-## Getting Started
+If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-### Prerequisites
+## Laravel Sponsors
 
-- Node.js 18+
-- MySQL 9.2.0
-- pnpm (recommended) or npm
+We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
 
-### Installation
+### Premium Partners
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/manyunyu7/amankilla.git
-   cd amankilla
-   ```
+- **[Vehikl](https://vehikl.com)**
+- **[Tighten Co.](https://tighten.co)**
+- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
+- **[64 Robots](https://64robots.com)**
+- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
+- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
+- **[Redberry](https://redberry.international/laravel-development)**
+- **[Active Logic](https://activelogic.com)**
 
-2. Install dependencies:
-   ```bash
-   pnpm install
-   ```
+## Contributing
 
-3. Set up environment variables:
-   ```bash
-   cp .env.example .env
-   # Edit .env with your database credentials
-   ```
+Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-4. Set up the database:
-   ```bash
-   npx prisma migrate dev
-   npx prisma generate
-   ```
+## Code of Conduct
 
-5. Run the development server:
-   ```bash
-   pnpm dev
-   ```
+In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-6. Open [http://localhost:3000](http://localhost:3000)
+## Security Vulnerabilities
 
-## Project Structure
-
-```
-/amankila/
-├── prisma/           # Database schema and migrations
-├── server/
-│   ├── api/          # API endpoints
-│   ├── middleware/   # Auth middleware
-│   └── utils/        # Helpers (db, parser, auth)
-├── components/
-│   ├── ui/           # Duolingo-style components (DButton, DCard, etc.)
-│   ├── graph/        # Timeline visualization
-│   ├── editor/       # TipTap rich text editor
-│   └── layout/       # App layout components
-├── composables/      # Vue composables
-├── pages/            # Nuxt pages
-├── assets/css/       # Styles
-└── utils/            # Client utilities
-```
-
-## UI Components
-
-All UI components use the "D" prefix (Duolingo-style):
-- `DButton` - 3D buttons with shadow effect
-- `DCard` - Cards with depth
-- `DInput`, `DBadge`, `DToggle`, `DToast`, `DModal`, `DBottomSheet`
-
-## API Endpoints
-
-### Auth
-- `POST /api/auth/register` - Create account
-- `POST /api/auth/login` - Login
-- `POST /api/auth/logout` - Logout
-- `GET /api/auth/me` - Current user
-
-### Universes
-- `GET /api/universes` - List universes
-- `POST /api/universes` - Create universe
-- `GET /api/universes/:id` - Get universe
-- `PUT /api/universes/:id` - Update universe
-- `DELETE /api/universes/:id` - Delete universe
-
-### Timelines & Scenes
-- `GET /api/timelines/:id` - Get timeline with scenes
-- `POST /api/scenes/:id/branch` - Create branch from scene
-
-### Import & Search
-- `POST /api/import/raw` - Import story data
-- `GET /api/search` - Full-text search
-
-## Development Roadmap
-
-- **Phase 1**: Core (Auth, CRUD, Basic Graph, Import)
-- **Phase 2**: Branch System (Branch points, Alternate timelines)
-- **Phase 3**: Organization (Characters, Tags, Search)
-- **Phase 4**: Social (Public universes, Forking, OAuth)
-- **Phase 5**: Polish (Mobile, Animations, Export)
+If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
 ## License
 
-MIT
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

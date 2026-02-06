@@ -64,7 +64,7 @@ class Timeline extends Model
      */
     public function firstScene(): ?Scene
     {
-        return $this->scenes()->orderBy('order')->first();
+        return Scene::where('timeline_id', $this->id)->orderBy('order')->first();
     }
 
     /**
@@ -72,6 +72,6 @@ class Timeline extends Model
      */
     public function lastScene(): ?Scene
     {
-        return $this->scenes()->orderByDesc('order')->first();
+        return Scene::where('timeline_id', $this->id)->orderByDesc('order')->first();
     }
 }

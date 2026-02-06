@@ -3,6 +3,7 @@ import { ref, computed } from 'vue';
 import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { DButton, DCard, DBadge, DInput, DToggle } from '@/Components/ui';
+import { SceneEditor } from '@/Components/editor';
 
 const props = defineProps({
     scene: {
@@ -179,23 +180,17 @@ const toggleTag = (tagId) => {
                                 />
                             </div>
 
-                            <!-- Content editor placeholder -->
+                            <!-- Content editor -->
                             <div class="min-h-[400px]">
-                                <div v-if="isEditing" class="space-y-4">
-                                    <label class="block font-nunito font-semibold text-sm text-text-primary">
+                                <div v-if="isEditing">
+                                    <label class="block font-nunito font-semibold text-sm text-text-primary mb-2">
                                         Content
                                     </label>
-                                    <div class="border-2 border-border-gray rounded-xl p-4 bg-bg-light min-h-[300px]">
-                                        <textarea
-                                            v-model="form.content"
-                                            class="w-full h-full min-h-[280px] bg-transparent border-0 focus:ring-0 font-nunito text-text-primary resize-none"
-                                            placeholder="Write your scene content here... (TipTap editor coming soon)"
-                                        ></textarea>
-                                    </div>
-                                    <div class="flex justify-between text-sm text-text-hint">
-                                        <span>{{ wordCount.toLocaleString() }} words</span>
-                                        <span class="text-xs">TipTap rich editor coming in Phase 6</span>
-                                    </div>
+                                    <SceneEditor
+                                        v-model="form.content"
+                                        placeholder="Write your scene content here..."
+                                        :editable="true"
+                                    />
                                 </div>
 
                                 <div v-else>

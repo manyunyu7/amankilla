@@ -1,1 +1,61 @@
 @import "tailwindcss";
+
+/* Nunito Font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap');
+
+/* Tailwind v4 theme configuration */
+@theme {
+  /* Primary (Duolingo Blue) */
+  --color-primary: #1CB0F6;
+  --color-primary-dark: #1899D6;
+  --color-primary-light: #DBEAFE;
+
+  /* Secondary */
+  --color-secondary: #3B82F6;
+  --color-secondary-dark: #2563EB;
+
+  /* Success (Green) */
+  --color-success: #58CC02;
+  --color-success-dark: #46A302;
+  --color-success-light: #D7FFB8;
+
+  /* Warning */
+  --color-warning: #F59E0B;
+  --color-warning-dark: #D97706;
+
+  /* Error */
+  --color-error: #EF4444;
+  --color-error-dark: #DC2626;
+
+  /* Backgrounds */
+  --color-bg-light: #F8F9FA;
+  --color-bg-sheet: #F5F5F5;
+  --color-bg-light-gray: #F3F4F6;
+
+  /* Borders */
+  --color-border-gray: #E5E5E5;
+  --color-border-dark: #DEE2E6;
+
+  /* Text */
+  --color-text-primary: #1F2937;
+  --color-text-secondary: #6B7280;
+  --color-text-hint: #9CA3AF;
+
+  /* Font Family */
+  --font-family-sans: 'Nunito', ui-sans-serif, system-ui, sans-serif;
+  --font-family-nunito: 'Nunito', sans-serif;
+
+  /* Border Radius */
+  --radius-duo: 22px;
+
+  /* Box Shadow */
+  --shadow-duo: 0 4px 0 0;
+  --shadow-duo-sm: 0 2px 0 0;
+}
+
+/* Base styles */
+body {
+  font-family: var(--font-family-sans);
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-light);
+}

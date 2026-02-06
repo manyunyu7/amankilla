@@ -3,13 +3,29 @@ import { ref, computed } from 'vue';
 import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { DButton, DCard, DBadge, DInput, DModal, DToggle } from '@/Components/ui';
+import { TimelineGraph } from '@/Components/graph';
 
 const props = defineProps({
     universe: {
         type: Object,
         required: true,
     },
+    allScenes: {
+        type: Array,
+        default: () => [],
+    },
 });
+
+const selectedSceneId = ref(null);
+const viewMode = ref('graph'); // 'graph' or 'list'
+
+const handleSceneClick = (scene) => {
+    selectedSceneId.value = scene.id;
+};
+
+const handleSceneDblClick = (scene) => {
+    router.visit(route('scenes.show', scene.id));
+};
 
 const activeTimeline = ref(props.universe.timelines?.[0] || null);
 const showTimelineModal = ref(false);
@@ -288,26 +304,46 @@ const deleteTimeline = (timeline) => {
                                 {{ activeTimeline.description }}
                             </p>
                         </div>
-                        <DButton size="sm">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                            </svg>
-                            Add Scene
-                        </DButton>
+                        <Link :href="route('timelines.scenes.index', activeTimeline.id)">
+                            <DButton size="sm">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                                </svg>
+                                Manage Scenes
+                            </DButton>
+                        </Link>
                     </div>
 
-                    <!-- Graph visualization placeholder -->
-                    <DCard class="h-[calc(100%-4rem)]" padding="lg">
-                        <div class="h-full flex items-center justify-center text-text-hint">
-                            <div class="text-center">
-                                <svg class="w-16 h-16 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-                                </svg>
-                                <p class="font-nunito font-semibold">Timeline Graph</p>
-                                <p class="text-sm">Vue Flow graph visualization will go here</p>
+                    <!-- Graph visualization -->
+                    <div class="h-[calc(100%-4rem)] rounded-xl overflow-hidden border-2 border-border-light">
+                        <TimelineGraph
+                            v-if="allScenes.length > 0"
+                            :timelines="universe.timelines"
+                            :scenes="allScenes"
+                            v-model:selected-scene-id="selectedSceneId"
+                            @scene-click="handleSceneClick"
+                            @scene-dblclick="handleSceneDblClick"
+                        />
+                        <DCard v-else class="h-full" padding="lg">
+                            <div class="h-full flex items-center justify-center text-text-hint">
+                                <div class="text-center">
+                                    <svg class="w-16 h-16 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                    </svg>
+                                    <p class="font-nunito font-semibold">No Scenes Yet</p>
+                                    <p class="text-sm">Add scenes to this timeline to visualize them</p>
+                                    <Link :href="route('timelines.scenes.index', activeTimeline.id)" class="mt-4 inline-block">
+                                        <DButton size="sm">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                                            </svg>
+                                            Add Scene
+                                        </DButton>
+                                    </Link>
+                                </div>
                             </div>
-                        </div>
-                    </DCard>
+                        </DCard>
+                    </div>
                 </div>
             </main>
         </div>

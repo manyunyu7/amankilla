@@ -54,8 +54,16 @@ class UniverseController extends Controller
             'tags',
         ]);
 
+        // Load all scenes for graph visualization
+        $allScenes = $universe->timelines()
+            ->with('scenes.tags', 'scenes.characters')
+            ->get()
+            ->pluck('scenes')
+            ->flatten();
+
         return Inertia::render('Universe/Index', [
             'universe' => $universe,
+            'allScenes' => $allScenes,
         ]);
     }
 

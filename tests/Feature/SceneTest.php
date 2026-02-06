@@ -277,4 +277,134 @@ class SceneTest extends TestCase
 
         $this->assertEquals(10, $scene->fresh()->word_count);
     }
+
+    public function test_user_can_toggle_branch_point(): void
+    {
+        $user = User::factory()->create();
+        $universe = Universe::factory()->create(['user_id' => $user->id]);
+        $timeline = Timeline::factory()->create(['universe_id' => $universe->id]);
+        $scene = Scene::factory()->create([
+            'timeline_id' => $timeline->id,
+            'is_branch_point' => false,
+        ]);
+
+        $response = $this->actingAs($user)->patch(route('scenes.toggle-branch-point', $scene), [
+            'is_branch_point' => true,
+            'branch_question' => 'What if they never met?',
+        ]);
+
+        $response->assertRedirect();
+        $this->assertTrue($scene->fresh()->is_branch_point);
+        $this->assertEquals('What if they never met?', $scene->fresh()->branch_question);
+    }
+
+    public function test_user_cannot_toggle_branch_point_on_others_scene(): void
+    {
+        $user = User::factory()->create();
+        $otherUser = User::factory()->create();
+        $universe = Universe::factory()->create(['user_id' => $otherUser->id]);
+        $timeline = Timeline::factory()->create(['universe_id' => $universe->id]);
+        $scene = Scene::factory()->create(['timeline_id' => $timeline->id]);
+
+        $response = $this->actingAs($user)->patch(route('scenes.toggle-branch-point', $scene), [
+            'is_branch_point' => true,
+        ]);
+
+        $response->assertForbidden();
+    }
+
+    public function test_user_can_create_branch_from_scene(): void
+    {
+        $user = User::factory()->create();
+        $universe = Universe::factory()->create(['user_id' => $user->id]);
+        $timeline = Timeline::factory()->create(['universe_id' => $universe->id]);
+        $scene = Scene::factory()->create(['timeline_id' => $timeline->id, 'order' => 1]);
+
+        $response = $this->actingAs($user)->post(route('scenes.create-branch', $scene), [
+            'name' => 'Alternate Timeline',
+            'description' => 'What if things went differently?',
+            'color' => '#FF5733',
+        ]);
+
+        $response->assertRedirect();
+
+        // Verify scene is now a branch point
+        $this->assertTrue($scene->fresh()->is_branch_point);
+
+        // Verify new timeline was created
+        $this->assertDatabaseHas('timelines', [
+            'universe_id' => $universe->id,
+            'name' => 'Alternate Timeline',
+            'branch_from_id' => $scene->id,
+            'is_canon' => false,
+        ]);
+    }
+
+    public function test_user_can_create_branch_with_copied_scenes(): void
+    {
+        $user = User::factory()->create();
+        $universe = Universe::factory()->create(['user_id' => $user->id]);
+        $timeline = Timeline::factory()->create(['universe_id' => $universe->id]);
+        $scene1 = Scene::factory()->create(['timeline_id' => $timeline->id, 'order' => 1, 'title' => 'Scene 1']);
+        $scene2 = Scene::factory()->create(['timeline_id' => $timeline->id, 'order' => 2, 'title' => 'Scene 2']);
+        $scene3 = Scene::factory()->create(['timeline_id' => $timeline->id, 'order' => 3, 'title' => 'Scene 3']);
+
+        $response = $this->actingAs($user)->post(route('scenes.create-branch', $scene1), [
+            'name' => 'Alternate Timeline',
+            'copy_subsequent_scenes' => true,
+        ]);
+
+        $response->assertRedirect();
+
+        // Verify new timeline has the subsequent scenes copied
+        $newTimeline = Timeline::where('branch_from_id', $scene1->id)->first();
+        $this->assertNotNull($newTimeline);
+        $this->assertEquals(2, $newTimeline->scenes()->count());
+        $this->assertEquals(['Scene 2', 'Scene 3'], $newTimeline->scenes()->pluck('title')->toArray());
+    }
+
+    public function test_user_cannot_create_branch_on_others_scene(): void
+    {
+        $user = User::factory()->create();
+        $otherUser = User::factory()->create();
+        $universe = Universe::factory()->create(['user_id' => $otherUser->id]);
+        $timeline = Timeline::factory()->create(['universe_id' => $universe->id]);
+        $scene = Scene::factory()->create(['timeline_id' => $timeline->id]);
+
+        $response = $this->actingAs($user)->post(route('scenes.create-branch', $scene), [
+            'name' => 'Alternate Timeline',
+        ]);
+
+        $response->assertForbidden();
+    }
+
+    public function test_user_can_get_branches_from_scene(): void
+    {
+        $user = User::factory()->create();
+        $universe = Universe::factory()->create(['user_id' => $user->id]);
+        $timeline = Timeline::factory()->create(['universe_id' => $universe->id]);
+        $scene = Scene::factory()->create([
+            'timeline_id' => $timeline->id,
+            'is_branch_point' => true,
+        ]);
+
+        // Create branch timelines
+        Timeline::factory()->create([
+            'universe_id' => $universe->id,
+            'branch_from_id' => $scene->id,
+            'name' => 'Branch 1',
+        ]);
+        Timeline::factory()->create([
+            'universe_id' => $universe->id,
+            'branch_from_id' => $scene->id,
+            'name' => 'Branch 2',
+        ]);
+
+        $response = $this->actingAs($user)->getJson(route('scenes.branches', $scene));
+
+        $response->assertOk();
+        $response->assertJsonCount(2);
+        $response->assertJsonFragment(['name' => 'Branch 1']);
+        $response->assertJsonFragment(['name' => 'Branch 2']);
+    }
 }

@@ -34,6 +34,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/timelines/{timeline}/scenes/reorder', [SceneController::class, 'reorder'])
         ->name('timelines.scenes.reorder');
 
+    // Scene branching
+    Route::patch('/scenes/{scene}/branch-point', [SceneController::class, 'toggleBranchPoint'])
+        ->name('scenes.toggle-branch-point');
+    Route::post('/scenes/{scene}/branch', [SceneController::class, 'createBranch'])
+        ->name('scenes.create-branch');
+    Route::get('/scenes/{scene}/branches', [SceneController::class, 'branches'])
+        ->name('scenes.branches');
+
     // Character CRUD (nested under universe for store, shallow for others)
     Route::resource('universes.characters', CharacterController::class)->shallow();
 

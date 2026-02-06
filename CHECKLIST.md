@@ -233,7 +233,7 @@
 - [x] Create tags management section
 - [x] Add tag color picker
 - [x] Add tag category selector
-- [ ] Filter scenes by tag in sidebar
+- [x] Filter scenes by tag in sidebar
 
 ---
 
@@ -422,7 +422,7 @@ composer setup
 | 7. Graph Visualization | Not Started | 0/12 |
 | 8. Branching System | Not Started | 0/11 |
 | 9. Characters | Complete | 13/13 |
-| 10. Tags | In Progress | 10/11 |
+| 10. Tags | Complete | 11/11 |
 | 11. Search & Filter | Not Started | 0/13 |
 | 12. Import (Parser) | Not Started | 0/18 |
 | 13. Public/Private | Not Started | 0/11 |
@@ -430,7 +430,7 @@ composer setup
 | 15. Export | Not Started | 0/7 |
 | 16. OAuth | Not Started | 0/5 |
 
-**Total: 114/194 tasks completed**
+**Total: 115/194 tasks completed**
 
 ---
 

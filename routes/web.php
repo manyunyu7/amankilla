@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CharacterController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SceneController;
 use App\Http\Controllers\TimelineController;
@@ -31,6 +32,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('timelines.scenes', SceneController::class)->shallow();
     Route::post('/timelines/{timeline}/scenes/reorder', [SceneController::class, 'reorder'])
         ->name('timelines.scenes.reorder');
+
+    // Character CRUD (nested under universe for store, shallow for others)
+    Route::resource('universes.characters', CharacterController::class)->shallow();
 
     // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

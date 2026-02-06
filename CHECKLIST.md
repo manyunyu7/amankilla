@@ -129,18 +129,18 @@
 ## Phase 6: Rich Text Editor
 
 ### Setup
-- [ ] Install TipTap packages
-- [ ] Configure TipTap extensions (bold, italic, etc.)
-- [ ] Style editor with Duolingo theme
+- [x] Install TipTap packages
+- [x] Configure TipTap extensions (bold, italic, etc.)
+- [x] Style editor with Duolingo theme
 
 ### SceneEditor Component
-- [ ] Create SceneEditor.vue
-- [ ] Add toolbar (formatting buttons)
+- [x] Create SceneEditor.vue
+- [x] Add toolbar (formatting buttons)
 - [ ] Add character dialogue styling
 - [ ] Add inner monologue styling
 - [ ] Add timestamp styling
-- [ ] Implement auto-save (debounced)
-- [ ] Show word count
+- [x] Implement auto-save (debounced)
+- [x] Show word count
 
 ### MetadataPanel Component
 - [ ] Create MetadataPanel.vue
@@ -418,7 +418,7 @@ composer setup
 | 3. Universe CRUD | Complete | 15/15 |
 | 4. Timeline CRUD | Complete | 14/14 |
 | 5. Scene CRUD | Complete | 14/14 |
-| 6. Rich Text Editor | Not Started | 0/16 |
+| 6. Rich Text Editor | In Progress | 7/16 |
 | 7. Graph Visualization | Not Started | 0/12 |
 | 8. Branching System | Not Started | 0/11 |
 | 9. Characters | Not Started | 0/13 |
@@ -430,7 +430,7 @@ composer setup
 | 15. Export | Not Started | 0/7 |
 | 16. OAuth | Not Started | 0/5 |
 
-**Total: 76/194 tasks completed**
+**Total: 83/194 tasks completed**
 
 ---
 

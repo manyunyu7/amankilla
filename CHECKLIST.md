@@ -26,14 +26,14 @@
 
 ### Design System (Duolingo Blue)
 - [x] Define color palette (colors.js)
-- [ ] Create DButton component (3D effect)
-- [ ] Create DCard component (3D effect)
-- [ ] Create DInput component
-- [ ] Create DBadge component
-- [ ] Create DToggle component
-- [ ] Create DToast component
-- [ ] Create DModal component
-- [ ] Create DBottomSheet component
+- [x] Create DButton component (3D effect)
+- [x] Create DCard component (3D effect)
+- [x] Create DInput component
+- [x] Create DBadge component
+- [x] Create DToggle component
+- [x] Create DToast component
+- [x] Create DModal component
+- [x] Create DBottomSheet component
 - [ ] Test all components in a sandbox page
 
 ---
@@ -413,7 +413,7 @@ composer setup
 
 | Phase | Status | Progress |
 |-------|--------|----------|
-| 1. Foundation | In Progress | 15/16 |
+| 1. Foundation | Complete | 24/25 |
 | 2. Authentication | In Progress | 9/13 |
 | 3. Universe CRUD | Not Started | 0/15 |
 | 4. Timeline CRUD | Not Started | 0/14 |
@@ -430,7 +430,7 @@ composer setup
 | 15. Export | Not Started | 0/7 |
 | 16. OAuth | Not Started | 0/5 |
 
-**Total: 24/194 tasks completed**
+**Total: 33/194 tasks completed**
 
 ---
 

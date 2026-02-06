@@ -7,22 +7,25 @@
 ## Phase 1: Foundation
 
 ### Project Setup
-- [ ] Initialize Nuxt 3 project
-- [ ] Install dependencies (Prisma, TipTap, Vue Flow, etc.)
-- [ ] Configure Tailwind CSS
-- [ ] Setup Nunito font (Google Fonts)
-- [ ] Create folder structure
-- [ ] Setup environment variables (.env)
+- [x] Create Laravel 12 project
+- [x] Install Laravel Breeze with Vue + Inertia
+- [x] Configure Tailwind CSS 4.0
+- [x] Install additional packages (TipTap, Vue Flow, Pinia, VueUse)
+- [x] Setup Nunito font (Google Fonts)
+- [x] Create folder structure
+- [x] Setup environment variables (.env)
+- [x] Configure Vite build
 
 ### Database
-- [ ] Create MySQL database `storybranch`
-- [ ] Configure Prisma with MySQL
-- [ ] Create schema (User, Universe, Timeline, Scene, etc.)
-- [ ] Run initial migration
-- [ ] Test database connection
+- [x] Create MySQL database `storybranch`
+- [x] Configure database connection
+- [x] Create migrations (User, Universe, Timeline, Scene, etc.)
+- [x] Create Eloquent models with relationships
+- [x] Run initial migration
+- [x] Test database connection
 
 ### Design System (Duolingo Blue)
-- [ ] Define color palette (colors.ts)
+- [x] Define color palette (colors.js)
 - [ ] Create DButton component (3D effect)
 - [ ] Create DCard component (3D effect)
 - [ ] Create DInput component
@@ -37,22 +40,21 @@
 
 ## Phase 2: Authentication
 
-### Backend
-- [ ] Setup password hashing (bcrypt)
-- [ ] Setup JWT token generation
-- [ ] Create `/api/auth/register` endpoint
-- [ ] Create `/api/auth/login` endpoint
-- [ ] Create `/api/auth/logout` endpoint
-- [ ] Create `/api/auth/me` endpoint
-- [ ] Create auth middleware
+### Backend (Laravel Breeze)
+- [x] Install Breeze with Vue stack
+- [x] Customize User model (add username, avatar_url)
+- [x] Create username migration
+- [x] Update RegisteredUserController for username
+- [x] Test registration flow
+- [x] Test login flow
+- [x] Test logout flow
 
 ### Frontend
-- [ ] Create `useAuth` composable
-- [ ] Create register page (`/register`)
-- [ ] Create login page (`/login`)
-- [ ] Setup auth state management
-- [ ] Protect routes (middleware)
-- [ ] Add logout functionality
+- [ ] Customize login page with Duolingo style
+- [ ] Customize register page with Duolingo style
+- [x] Create AppLayout.vue
+- [x] Create GuestLayout.vue
+- [ ] Add user dropdown in header
 - [ ] Handle auth errors gracefully
 
 ---
@@ -60,17 +62,21 @@
 ## Phase 3: Universe CRUD
 
 ### Backend
-- [ ] Create `/api/universes` GET (list)
-- [ ] Create `/api/universes` POST (create)
-- [ ] Create `/api/universes/:id` GET (detail)
-- [ ] Create `/api/universes/:id` PUT (update)
-- [ ] Create `/api/universes/:id` DELETE (delete)
+- [ ] Create Universe model
+- [ ] Create UniverseController
+- [ ] Create StoreUniverseRequest validation
+- [ ] Create UpdateUniverseRequest validation
+- [ ] Implement index (list user's universes)
+- [ ] Implement store (create universe)
+- [ ] Implement show (universe detail)
+- [ ] Implement update (edit universe)
+- [ ] Implement destroy (delete universe)
 
 ### Frontend
-- [ ] Create `useUniverse` composable
-- [ ] Create dashboard page (list universes)
-- [ ] Create "New Universe" modal/page
-- [ ] Create universe settings page
+- [ ] Create Dashboard.vue (list universes)
+- [ ] Create universe store (Pinia)
+- [ ] Create "New Universe" modal
+- [ ] Create Universe/Settings.vue
 - [ ] Add delete confirmation modal
 - [ ] Handle empty state (no universes)
 
@@ -79,14 +85,17 @@
 ## Phase 4: Timeline CRUD
 
 ### Backend
-- [ ] Create `/api/universes/:id/timelines` GET (list)
-- [ ] Create `/api/universes/:id/timelines` POST (create)
-- [ ] Create `/api/timelines/:id` GET (detail with scenes)
-- [ ] Create `/api/timelines/:id` PUT (update)
-- [ ] Create `/api/timelines/:id` DELETE (delete)
+- [ ] Create Timeline model
+- [ ] Create TimelineController
+- [ ] Create StoreTimelineRequest validation
+- [ ] Implement index (list timelines in universe)
+- [ ] Implement store (create timeline)
+- [ ] Implement show (timeline with scenes)
+- [ ] Implement update (edit timeline)
+- [ ] Implement destroy (delete timeline)
 
 ### Frontend
-- [ ] Create `useTimeline` composable
+- [ ] Create timeline store (Pinia)
 - [ ] Create timeline sidebar component
 - [ ] Create "New Timeline" modal
 - [ ] Add timeline color picker
@@ -98,15 +107,18 @@
 ## Phase 5: Scene CRUD
 
 ### Backend
-- [ ] Create `/api/timelines/:id/scenes` GET (list)
-- [ ] Create `/api/timelines/:id/scenes` POST (create)
-- [ ] Create `/api/scenes/:id` GET (detail)
-- [ ] Create `/api/scenes/:id` PUT (update)
-- [ ] Create `/api/scenes/:id` DELETE (delete)
-- [ ] Create `/api/scenes/:id/reorder` PUT (change order)
+- [ ] Create Scene model
+- [ ] Create SceneController
+- [ ] Create StoreSceneRequest validation
+- [ ] Implement index (list scenes in timeline)
+- [ ] Implement store (create scene)
+- [ ] Implement show (scene detail)
+- [ ] Implement update (edit scene)
+- [ ] Implement destroy (delete scene)
+- [ ] Implement reorder (change scene order)
 
 ### Frontend
-- [ ] Create `useScene` composable
+- [ ] Create scene store (Pinia)
 - [ ] Create scene list view
 - [ ] Create scene card component
 - [ ] Create "New Scene" modal
@@ -117,7 +129,7 @@
 ## Phase 6: Rich Text Editor
 
 ### Setup
-- [ ] Install TipTap
+- [ ] Install TipTap packages
 - [ ] Configure TipTap extensions (bold, italic, etc.)
 - [ ] Style editor with Duolingo theme
 
@@ -130,7 +142,7 @@
 - [ ] Implement auto-save (debounced)
 - [ ] Show word count
 
-### Metadata Panel
+### MetadataPanel Component
 - [ ] Create MetadataPanel.vue
 - [ ] Add title input
 - [ ] Add date/time inputs
@@ -169,8 +181,8 @@
 ## Phase 8: Branching System
 
 ### Backend
-- [ ] Create `/api/scenes/:id/branch` POST (create branch)
-- [ ] Update scene with `isBranchPoint` flag
+- [ ] Add branch method to SceneController
+- [ ] Update scene with `is_branch_point` flag
 - [ ] Create new timeline from branch
 - [ ] Copy subsequent scenes (optional)
 
@@ -188,35 +200,37 @@
 ## Phase 9: Characters
 
 ### Backend
-- [ ] Create `/api/universes/:id/characters` GET
-- [ ] Create `/api/universes/:id/characters` POST
-- [ ] Create `/api/characters/:id` PUT
-- [ ] Create `/api/characters/:id` DELETE
+- [ ] Create Character model
+- [ ] Create CharacterController
+- [ ] Implement CRUD operations
+- [ ] Create scene_character pivot table
+- [ ] Add character relationships to Scene model
 
 ### Frontend
-- [ ] Create characters management page
+- [ ] Create Universe/Characters.vue page
 - [ ] Create CharacterCard component
 - [ ] Create CharacterAvatar component
 - [ ] Create "New Character" modal
 - [ ] Add character color picker
 - [ ] Add character type selector (INFJ, INFP, etc.)
 - [ ] Add traits editor (tags)
-- [ ] Link characters to scenes
+- [ ] Link characters to scenes in MetadataPanel
 
 ---
 
 ## Phase 10: Tags
 
 ### Backend
-- [ ] Create `/api/universes/:id/tags` GET
-- [ ] Create `/api/universes/:id/tags` POST
-- [ ] Create `/api/tags/:id` DELETE
+- [ ] Create Tag model
+- [ ] Create TagController
+- [ ] Implement CRUD operations
+- [ ] Create scene_tag pivot table
 - [ ] Auto-create tags when adding to scene
 
 ### Frontend
 - [ ] Create TagChip component
 - [ ] Create TagSelector component (multi-select)
-- [ ] Create tags management page
+- [ ] Create tags management section
 - [ ] Add tag color picker
 - [ ] Add tag category selector
 - [ ] Filter scenes by tag in sidebar
@@ -226,7 +240,7 @@
 ## Phase 11: Search & Filter
 
 ### Backend
-- [ ] Create `/api/search` GET endpoint
+- [ ] Create SearchController
 - [ ] Implement full-text search (MySQL FULLTEXT)
 - [ ] Filter by tags
 - [ ] Filter by characters
@@ -235,7 +249,7 @@
 - [ ] Sort by date/order
 
 ### Frontend
-- [ ] Create `useSearch` composable
+- [ ] Create search store (Pinia)
 - [ ] Create search input component
 - [ ] Create filter panel component
 - [ ] Show search results
@@ -246,14 +260,13 @@
 
 ## Phase 12: Import (raw.md Parser)
 
-### Parser Logic
-- [ ] Create extractScenes.ts
+### Parser Service
+- [ ] Create RawParser service class
 - [ ] Detect scene start patterns
 - [ ] Detect scene end patterns
 - [ ] Filter out prompts/meta content
 - [ ] Extract title from scene header
 - [ ] Extract timestamps
-- [ ] Create extractMetadata.ts
 - [ ] Detect characters from dialogue
 - [ ] Detect mood from keywords
 - [ ] Detect location from keywords
@@ -261,8 +274,9 @@
 - [ ] Generate tags from content
 
 ### Backend
-- [ ] Create `/api/import/raw` POST endpoint
-- [ ] Parse uploaded file
+- [ ] Create ImportController
+- [ ] Handle file upload
+- [ ] Parse uploaded file with RawParser
 - [ ] Create universe from parsed data
 - [ ] Create timeline (canon)
 - [ ] Create scenes with metadata
@@ -270,7 +284,7 @@
 - [ ] Create tags
 
 ### Frontend
-- [ ] Create import page
+- [ ] Create Universe/Import.vue page
 - [ ] Add file upload component
 - [ ] Show parsing preview
 - [ ] Allow editing before import
@@ -282,16 +296,16 @@
 ## Phase 13: Public/Private & Sharing
 
 ### Backend
-- [ ] Add `isPublic` to universe
-- [ ] Add `allowFork` to universe
-- [ ] Create `/api/explore` GET (public universes)
-- [ ] Create `/api/universes/:id/fork` POST
+- [ ] Add `is_public` to universe
+- [ ] Add `allow_fork` to universe
+- [ ] Create ExploreController (public universes)
+- [ ] Implement fork functionality
 - [ ] Track forked_from relationship
 
 ### Frontend
 - [ ] Add visibility toggle in settings
 - [ ] Add fork permission toggle
-- [ ] Create explore page (public universes)
+- [ ] Create Explore.vue page (public universes)
 - [ ] Create "Fork" button
 - [ ] Show fork count
 - [ ] Show "forked from" attribution
@@ -381,30 +395,42 @@ Family: Nunito
 Weights: 500, 600, 700, 800
 ```
 
+### Development Commands
+```bash
+# Start all services
+composer dev
+
+# Run tests
+composer test
+
+# Fresh install
+composer setup
+```
+
 ---
 
 ## Progress Summary
 
 | Phase | Status | Progress |
 |-------|--------|----------|
-| 1. Foundation | 🔲 Not Started | 0/11 |
-| 2. Authentication | 🔲 Not Started | 0/14 |
-| 3. Universe CRUD | 🔲 Not Started | 0/11 |
-| 4. Timeline CRUD | 🔲 Not Started | 0/11 |
-| 5. Scene CRUD | 🔲 Not Started | 0/10 |
-| 6. Rich Text Editor | 🔲 Not Started | 0/16 |
-| 7. Graph Visualization | 🔲 Not Started | 0/12 |
-| 8. Branching System | 🔲 Not Started | 0/12 |
-| 9. Characters | 🔲 Not Started | 0/12 |
-| 10. Tags | 🔲 Not Started | 0/10 |
-| 11. Search & Filter | 🔲 Not Started | 0/14 |
-| 12. Import (Parser) | 🔲 Not Started | 0/19 |
-| 13. Public/Private | 🔲 Not Started | 0/10 |
-| 14. Polish & UX | 🔲 Not Started | 0/15 |
-| 15. Export | 🔲 Not Started | 0/7 |
-| 16. OAuth | 🔲 Not Started | 0/5 |
+| 1. Foundation | In Progress | 15/16 |
+| 2. Authentication | In Progress | 9/13 |
+| 3. Universe CRUD | Not Started | 0/15 |
+| 4. Timeline CRUD | Not Started | 0/14 |
+| 5. Scene CRUD | Not Started | 0/14 |
+| 6. Rich Text Editor | Not Started | 0/16 |
+| 7. Graph Visualization | Not Started | 0/12 |
+| 8. Branching System | Not Started | 0/11 |
+| 9. Characters | Not Started | 0/13 |
+| 10. Tags | Not Started | 0/11 |
+| 11. Search & Filter | Not Started | 0/13 |
+| 12. Import (Parser) | Not Started | 0/18 |
+| 13. Public/Private | Not Started | 0/11 |
+| 14. Polish & UX | Not Started | 0/15 |
+| 15. Export | Not Started | 0/7 |
+| 16. OAuth | Not Started | 0/5 |
 
-**Total: 0/179 tasks completed**
+**Total: 24/194 tasks completed**
 
 ---
 

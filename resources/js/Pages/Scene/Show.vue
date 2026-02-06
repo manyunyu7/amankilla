@@ -4,6 +4,7 @@ import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { DButton, DCard, DBadge, DInput } from '@/Components/ui';
 import { SceneEditor, MetadataPanel } from '@/Components/editor';
+import { BranchPanel } from '@/Components/branch';
 
 const props = defineProps({
     scene: {
@@ -210,7 +211,7 @@ const saveScene = () => {
                     </div>
 
                     <!-- Metadata sidebar -->
-                    <aside class="w-80 shrink-0">
+                    <aside class="w-80 shrink-0 space-y-4">
                         <DCard padding="md" class="sticky top-6">
                             <MetadataPanel
                                 :modelValue="metadataForm"
@@ -220,6 +221,14 @@ const saveScene = () => {
                                 :editable="isEditing"
                                 v-model:collapsed="metadataCollapsed"
                                 @update:modelValue="updateMetadata"
+                            />
+                        </DCard>
+
+                        <!-- Branch Panel -->
+                        <DCard padding="md">
+                            <BranchPanel
+                                :scene="scene"
+                                :editable="isEditing"
                             />
                         </DCard>
                     </aside>

@@ -424,6 +424,7 @@ const deleteTimeline = (timeline) => {
                             v-if="allScenes.length > 0"
                             :timelines="universe.timelines"
                             :scenes="allScenes"
+                            :active-timeline-id="activeTimeline?.id"
                             v-model:selected-scene-id="selectedSceneId"
                             @scene-click="handleSceneClick"
                             @scene-dblclick="handleSceneDblClick"

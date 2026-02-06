@@ -17,6 +17,8 @@ const emit = defineEmits(['view', 'edit']);
 
 const scene = computed(() => props.data.scene);
 const timeline = computed(() => props.data.timeline);
+const isHighlighted = computed(() => props.data.isHighlighted !== false);
+const animationDelay = computed(() => props.data.animationDelay || 0);
 
 const nodeColor = computed(() => timeline.value?.color || '#1CB0F6');
 
@@ -35,9 +37,13 @@ const moodColor = computed(() => moodColors[scene.value?.mood] || '#6B7280');
 <template>
     <div
         :class="[
-            'scene-node relative rounded-xl border-2 bg-white shadow-md transition-all cursor-pointer min-w-[180px] max-w-[220px]',
+            'scene-node relative rounded-xl border-2 bg-white shadow-md cursor-pointer min-w-[180px] max-w-[220px]',
+            'transition-all duration-300 ease-out',
             selected ? 'border-primary shadow-lg scale-105' : 'border-border-light hover:border-primary hover:shadow-lg',
+            isHighlighted ? 'opacity-100' : 'opacity-40 hover:opacity-80',
+            animationDelay > 0 ? 'animate-fade-in-up' : '',
         ]"
+        :style="animationDelay > 0 ? { animationDelay: `${animationDelay}ms`, animationFillMode: 'forwards', opacity: 0 } : {}"
         @click="emit('view', scene)"
         @dblclick="emit('edit', scene)"
     >

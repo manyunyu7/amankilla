@@ -172,9 +172,9 @@
 ### Interactions
 - [x] Click node to select scene
 - [x] Double-click to open editor
-- [ ] Highlight current timeline path
+- [x] Highlight current timeline path
 - [x] Show branch points with special indicator
-- [ ] Animate transitions between views
+- [x] Animate transitions between views
 
 ---
 
@@ -419,7 +419,7 @@ composer setup
 | 4. Timeline CRUD | Complete | 14/14 |
 | 5. Scene CRUD | Complete | 14/14 |
 | 6. Rich Text Editor | Complete | 18/18 |
-| 7. Graph Visualization | In Progress | 10/12 |
+| 7. Graph Visualization | Complete | 12/12 |
 | 8. Branching System | Complete | 11/11 |
 | 9. Characters | Complete | 13/13 |
 | 10. Tags | Complete | 11/11 |
@@ -430,7 +430,7 @@ composer setup
 | 15. Export | Complete | 7/8 |
 | 16. OAuth | Not Started | 0/5 |
 
-**Total: 201/203 tasks completed**
+**Total: 203/203 tasks completed**
 
 ---
 

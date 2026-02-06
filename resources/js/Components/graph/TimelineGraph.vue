@@ -19,6 +19,10 @@ const props = defineProps({
         type: [Number, String],
         default: null,
     },
+    activeTimelineId: {
+        type: [Number, String],
+        default: null,
+    },
     showMinimap: {
         type: Boolean,
         default: true,
@@ -26,6 +30,9 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['scene-click', 'scene-dblclick', 'update:selectedSceneId']);
+
+// Track if graph has been rendered for animation
+const isRendered = ref(false);
 
 const { fitView } = useVueFlow();
 
@@ -42,16 +49,23 @@ const nodes = computed(() => {
     });
 
     // Create nodes for each scene
-    props.scenes.forEach((scene) => {
+    props.scenes.forEach((scene, index) => {
         const timeline = props.timelines.find(t => t.id === scene.timeline_id);
         const yPos = timelineYPositions[scene.timeline_id] || 0;
+        const isInActiveTimeline = props.activeTimelineId ? scene.timeline_id === props.activeTimelineId : true;
 
         result.push({
             id: `scene-${scene.id}`,
             type: 'sceneNode',
             position: { x: (scene.order - 1) * 280, y: yPos },
-            data: { scene, timeline },
+            data: {
+                scene,
+                timeline,
+                isHighlighted: isInActiveTimeline,
+                animationDelay: isRendered.value ? 0 : index * 50, // Staggered animation on first render
+            },
             selected: props.selectedSceneId === scene.id,
+            class: isInActiveTimeline ? '' : 'opacity-40',
         });
     });
 
@@ -75,15 +89,18 @@ const edges = computed(() => {
         const sorted = [...timelineScenes].sort((a, b) => a.order - b.order);
         for (let i = 0; i < sorted.length - 1; i++) {
             const timeline = props.timelines.find(t => t.id === sorted[i].timeline_id);
+            const isInActiveTimeline = props.activeTimelineId ? sorted[i].timeline_id === props.activeTimelineId : true;
             result.push({
                 id: `edge-${sorted[i].id}-${sorted[i + 1].id}`,
                 source: `scene-${sorted[i].id}`,
                 target: `scene-${sorted[i + 1].id}`,
                 type: 'smoothstep',
-                animated: false,
+                animated: isInActiveTimeline && props.activeTimelineId,
                 style: {
                     stroke: timeline?.color || '#1CB0F6',
-                    strokeWidth: 3,
+                    strokeWidth: isInActiveTimeline ? 4 : 2,
+                    opacity: isInActiveTimeline ? 1 : 0.3,
+                    transition: 'all 0.3s ease',
                 },
             });
         }
@@ -140,6 +157,10 @@ onMounted(() => {
     // Fit view after a short delay to ensure nodes are rendered
     setTimeout(() => {
         fitView({ padding: 0.2 });
+        // Mark as rendered after initial animation
+        setTimeout(() => {
+            isRendered.value = true;
+        }, 500);
     }, 100);
 });
 
@@ -230,5 +251,32 @@ const nodeTypes = {
     border-radius: 12px;
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
     border: 2px solid #E5E7EB;
+}
+
+/* Node transitions */
+.vue-flow__node {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Edge transitions */
+.vue-flow__edge path {
+    transition: stroke-width 0.3s ease, opacity 0.3s ease, stroke 0.3s ease;
+}
+
+/* Animate edges for active timeline */
+.vue-flow__edge.animated path {
+    stroke-dasharray: 5;
+    animation: flowDash 0.5s linear infinite;
+}
+
+@keyframes flowDash {
+    to {
+        stroke-dashoffset: -10;
+    }
+}
+
+/* Smooth panning transition */
+.vue-flow__viewport {
+    transition: transform 0.3s ease;
 }
 </style>

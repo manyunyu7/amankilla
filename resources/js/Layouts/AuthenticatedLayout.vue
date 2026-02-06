@@ -1,6 +1,8 @@
 <script setup>
 import { ref } from 'vue';
 import { Link, router } from '@inertiajs/vue3';
+import PageTransition from '@/Components/PageTransition.vue';
+import ErrorBoundary from '@/Components/ErrorBoundary.vue';
 
 const showingNavigationDropdown = ref(false);
 const showUserDropdown = ref(false);
@@ -246,7 +248,11 @@ const closeDropdown = () => {
 
             <!-- Page Content -->
             <main>
-                <slot />
+                <ErrorBoundary>
+                    <PageTransition>
+                        <slot />
+                    </PageTransition>
+                </ErrorBoundary>
             </main>
         </div>
 

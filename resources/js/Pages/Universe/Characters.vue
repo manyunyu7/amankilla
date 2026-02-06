@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { DButton, DCard, DBadge, DInput, DModal } from '@/Components/ui';
+import { DButton, DCard, DBadge, DInput, DModal, DConfirmModal } from '@/Components/ui';
 
 const props = defineProps({
     universe: {
@@ -16,6 +16,9 @@ const props = defineProps({
 });
 
 const showCharacterModal = ref(false);
+const showDeleteConfirm = ref(false);
+const characterToDelete = ref(null);
+const isDeleting = ref(false);
 
 const form = useForm({
     name: '',
@@ -39,10 +42,25 @@ const createCharacter = () => {
     });
 };
 
-const deleteCharacter = (character) => {
-    if (confirm(`Are you sure you want to delete "${character.name}"?`)) {
-        router.delete(route('characters.destroy', character.id));
-    }
+const confirmDeleteCharacter = (character) => {
+    characterToDelete.value = character;
+    showDeleteConfirm.value = true;
+};
+
+const deleteCharacter = () => {
+    if (!characterToDelete.value) return;
+
+    isDeleting.value = true;
+    router.delete(route('characters.destroy', characterToDelete.value.id), {
+        onSuccess: () => {
+            showDeleteConfirm.value = false;
+            characterToDelete.value = null;
+            isDeleting.value = false;
+        },
+        onError: () => {
+            isDeleting.value = false;
+        },
+    });
 };
 </script>
 
@@ -143,7 +161,7 @@ const deleteCharacter = (character) => {
                             </div>
                             <button
                                 class="opacity-0 group-hover:opacity-100 transition-opacity p-1 text-text-hint hover:text-error"
-                                @click="deleteCharacter(character)"
+                                @click="confirmDeleteCharacter(character)"
                             >
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -224,5 +242,18 @@ const deleteCharacter = (character) => {
                 </DButton>
             </template>
         </DModal>
+
+        <!-- Delete Character Confirmation -->
+        <DConfirmModal
+            :show="showDeleteConfirm"
+            title="Delete Character"
+            :message="`Are you sure you want to delete '${characterToDelete?.name}'? This action cannot be undone.`"
+            confirm-text="Delete"
+            cancel-text="Cancel"
+            variant="error"
+            :loading="isDeleting"
+            @close="showDeleteConfirm = false"
+            @confirm="deleteCharacter"
+        />
     </AuthenticatedLayout>
 </template>

@@ -2,7 +2,7 @@
 import { ref, computed } from 'vue';
 import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { DButton, DCard, DBadge, DInput, DModal } from '@/Components/ui';
+import { DButton, DCard, DBadge, DInput, DModal, DConfirmModal } from '@/Components/ui';
 
 const props = defineProps({
     universe: {
@@ -17,6 +17,9 @@ const props = defineProps({
 
 const showTagModal = ref(false);
 const editingTag = ref(null);
+const showDeleteConfirm = ref(false);
+const tagToDelete = ref(null);
+const isDeleting = ref(false);
 
 const categories = [
     { value: '', label: 'No Category' },
@@ -90,10 +93,25 @@ const submitForm = () => {
     }
 };
 
-const deleteTag = (tag) => {
-    if (confirm(`Are you sure you want to delete the tag "${tag.name}"?`)) {
-        router.delete(route('tags.destroy', tag.id));
-    }
+const confirmDeleteTag = (tag) => {
+    tagToDelete.value = tag;
+    showDeleteConfirm.value = true;
+};
+
+const deleteTag = () => {
+    if (!tagToDelete.value) return;
+
+    isDeleting.value = true;
+    router.delete(route('tags.destroy', tagToDelete.value.id), {
+        onSuccess: () => {
+            showDeleteConfirm.value = false;
+            tagToDelete.value = null;
+            isDeleting.value = false;
+        },
+        onError: () => {
+            isDeleting.value = false;
+        },
+    });
 };
 </script>
 
@@ -174,7 +192,7 @@ const deleteTag = (tag) => {
                                 </span>
                                 <button
                                     class="opacity-0 group-hover:opacity-100 transition-opacity p-0.5 text-text-hint hover:text-error"
-                                    @click.stop="deleteTag(tag)"
+                                    @click.stop="confirmDeleteTag(tag)"
                                 >
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -255,5 +273,18 @@ const deleteTag = (tag) => {
                 </DButton>
             </template>
         </DModal>
+
+        <!-- Delete Tag Confirmation -->
+        <DConfirmModal
+            :show="showDeleteConfirm"
+            title="Delete Tag"
+            :message="`Are you sure you want to delete the tag '${tagToDelete?.name}'? This action cannot be undone.`"
+            confirm-text="Delete"
+            cancel-text="Cancel"
+            variant="error"
+            :loading="isDeleting"
+            @close="showDeleteConfirm = false"
+            @confirm="deleteTag"
+        />
     </AuthenticatedLayout>
 </template>

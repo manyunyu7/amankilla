@@ -2,7 +2,7 @@
 import { ref, computed } from 'vue';
 import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { DButton, DCard, DBadge, DInput, DModal, DTagChip } from '@/Components/ui';
+import { DButton, DCard, DBadge, DInput, DModal, DTagChip, DConfirmModal } from '@/Components/ui';
 
 const props = defineProps({
     timeline: {
@@ -46,6 +46,9 @@ const clearFilters = () => {
 };
 
 const showSceneModal = ref(false);
+const showDeleteConfirm = ref(false);
+const sceneToDelete = ref(null);
+const isDeleting = ref(false);
 
 const sceneForm = useForm({
     title: '',
@@ -65,10 +68,25 @@ const createScene = () => {
     });
 };
 
-const deleteScene = (scene) => {
-    if (confirm(`Are you sure you want to delete "${scene.title}"?`)) {
-        router.delete(route('scenes.destroy', scene.id));
-    }
+const confirmDeleteScene = (scene) => {
+    sceneToDelete.value = scene;
+    showDeleteConfirm.value = true;
+};
+
+const deleteScene = () => {
+    if (!sceneToDelete.value) return;
+
+    isDeleting.value = true;
+    router.delete(route('scenes.destroy', sceneToDelete.value.id), {
+        onSuccess: () => {
+            showDeleteConfirm.value = false;
+            sceneToDelete.value = null;
+            isDeleting.value = false;
+        },
+        onError: () => {
+            isDeleting.value = false;
+        },
+    });
 };
 
 const moodColors = {
@@ -280,7 +298,7 @@ const moodColors = {
                                 </Link>
                                 <button
                                     class="p-2 text-text-hint hover:text-error transition-colors"
-                                    @click="deleteScene(scene)"
+                                    @click="confirmDeleteScene(scene)"
                                 >
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -370,5 +388,18 @@ const moodColors = {
                 </DButton>
             </template>
         </DModal>
+
+        <!-- Delete Scene Confirmation -->
+        <DConfirmModal
+            :show="showDeleteConfirm"
+            title="Delete Scene"
+            :message="`Are you sure you want to delete '${sceneToDelete?.title}'? This action cannot be undone.`"
+            confirm-text="Delete"
+            cancel-text="Cancel"
+            variant="error"
+            :loading="isDeleting"
+            @close="showDeleteConfirm = false"
+            @confirm="deleteScene"
+        />
     </AuthenticatedLayout>
 </template>

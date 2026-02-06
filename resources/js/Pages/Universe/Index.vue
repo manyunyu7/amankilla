@@ -2,7 +2,7 @@
 import { ref, computed, onMounted } from 'vue';
 import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { DButton, DCard, DBadge, DInput, DModal, DToggle, DTooltip } from '@/Components/ui';
+import { DButton, DCard, DBadge, DInput, DModal, DToggle, DTooltip, DConfirmModal } from '@/Components/ui';
 import { TimelineGraph } from '@/Components/graph';
 import { useKeyboardShortcuts } from '@/composables/useKeyboardShortcuts';
 
@@ -50,6 +50,9 @@ const activeTimeline = ref(props.universe.timelines?.[0] || null);
 const showTimelineModal = ref(false);
 const showEditTimelineModal = ref(false);
 const editingTimeline = ref(null);
+const showDeleteConfirm = ref(false);
+const timelineToDelete = ref(null);
+const isDeleting = ref(false);
 
 const timelineForm = useForm({
     name: '',
@@ -107,10 +110,30 @@ const updateTimeline = () => {
     });
 };
 
-const deleteTimeline = (timeline) => {
-    if (confirm(`Are you sure you want to delete "${timeline.name}"?`)) {
-        router.delete(route('timelines.destroy', timeline.id));
-    }
+const confirmDeleteTimeline = (timeline) => {
+    timelineToDelete.value = timeline;
+    showDeleteConfirm.value = true;
+};
+
+const deleteTimeline = () => {
+    if (!timelineToDelete.value) return;
+
+    isDeleting.value = true;
+    router.delete(route('timelines.destroy', timelineToDelete.value.id), {
+        onSuccess: () => {
+            showDeleteConfirm.value = false;
+            showEditTimelineModal.value = false;
+            timelineToDelete.value = null;
+            isDeleting.value = false;
+            // Reset active timeline if it was deleted
+            if (activeTimeline.value?.id === timelineToDelete.value?.id) {
+                activeTimeline.value = props.universe.timelines?.[0] || null;
+            }
+        },
+        onError: () => {
+            isDeleting.value = false;
+        },
+    });
 };
 </script>
 
@@ -564,7 +587,7 @@ const deleteTimeline = (timeline) => {
                     <button
                         type="button"
                         class="text-error text-sm font-semibold hover:text-error-dark transition-colors"
-                        @click="deleteTimeline(editingTimeline)"
+                        @click="confirmDeleteTimeline(editingTimeline)"
                     >
                         Delete this timeline
                     </button>
@@ -584,5 +607,18 @@ const deleteTimeline = (timeline) => {
                 </DButton>
             </template>
         </DModal>
+
+        <!-- Delete Timeline Confirmation -->
+        <DConfirmModal
+            :show="showDeleteConfirm"
+            title="Delete Timeline"
+            :message="`Are you sure you want to delete '${timelineToDelete?.name}'? This will also delete all scenes in this timeline. This action cannot be undone.`"
+            confirm-text="Delete"
+            cancel-text="Cancel"
+            variant="error"
+            :loading="isDeleting"
+            @close="showDeleteConfirm = false"
+            @confirm="deleteTimeline"
+        />
     </AuthenticatedLayout>
 </template>

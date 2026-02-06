@@ -11,3 +11,4 @@ export { default as DTagSelector } from './DTagSelector.vue';
 export { default as DSkeleton } from './DSkeleton.vue';
 export { default as DTooltip } from './DTooltip.vue';
 export { default as DTransitionList } from './DTransitionList.vue';
+export { default as DConfirmModal } from './DConfirmModal.vue';

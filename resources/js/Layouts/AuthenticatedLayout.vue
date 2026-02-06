@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import { Link, router } from '@inertiajs/vue3';
 import PageTransition from '@/Components/PageTransition.vue';
 import ErrorBoundary from '@/Components/ErrorBoundary.vue';
+import { DBottomNav } from '@/Components/ui';
 
 const showingNavigationDropdown = ref(false);
 const showUserDropdown = ref(false);
@@ -247,7 +248,7 @@ const closeDropdown = () => {
             </header>
 
             <!-- Page Content -->
-            <main>
+            <main class="pb-20 sm:pb-0">
                 <ErrorBoundary>
                     <PageTransition>
                         <slot />
@@ -255,6 +256,9 @@ const closeDropdown = () => {
                 </ErrorBoundary>
             </main>
         </div>
+
+        <!-- Mobile Bottom Navigation -->
+        <DBottomNav />
 
         <!-- Click outside to close dropdown -->
         <div
